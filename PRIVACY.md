@@ -2,7 +2,7 @@
 
 Effective date: October 26, 2026. This policy describes README HTML v0.1.2.
 
-README HTML has one purpose: preview static HTML documents from the current public GitHub repository, inline in READMEs or above the source on HTML file pages.
+README HTML has one purpose: preview static HTML documents from the current public GitHub repository, inline in READMEs or on HTML file pages.
 
 ## What the extension reads
 

@@ -70,7 +70,7 @@
 
 ## 兼容性
 
-- **仅 github.com 公开仓库：** 同仓库 `.html` / `.htm`，UTF-8，≤ 1 MiB，请求超时 15 秒。支持 HTML 文件页、仓库 README 和独立的 `README.md` / `README.markdown` 页面；文件页源码保留在预览下方。
+- **仅 github.com 公开仓库：** 同仓库 `.html` / `.htm`，UTF-8，≤ 1 MiB，请求超时 15 秒。支持 HTML 文件页、仓库 README 和独立的 `README.md` / `README.markdown` 页面；文件页按窗口高度显示预览，渲染成功后隐藏源码，失败时保留源码。
 - **静态文档：** 内嵌 CSS、SVG、允许的 Base64 位图、data 字体及原生 `<details>`。支持多个预览、调整高度、重试和收起，长文档在内部滚动。
 - **暂不支持：** JavaScript、外部或相对路径资源、私有仓库、Enterprise、GitLab、Issue/PR 及跨仓库预览。多语言 README 使用 `docs/zh-CN/README.md` 这样的语言目录。
 

@@ -94,7 +94,7 @@ Preview static HTML on GitHub file pages and inline in READMEs with a #html-prev
 ```text
 Preview static HTML directly on GitHub.
 
-README HTML displays static documents below marked README links and automatically above the source on HTML file pages in public GitHub repositories. Keep reports, diagrams, and project overviews alongside your code, with no separate website to deploy.
+README HTML displays static documents below marked README links and automatically on HTML file pages in public GitHub repositories. File-page previews fill the available window height and hide the source after rendering; failures leave the source visible. Keep reports, diagrams, and project overviews alongside your code, with no separate website to deploy.
 
 How it works
 1. Save a self-contained HTML file in your public repository.
@@ -129,13 +129,13 @@ No account, login, API key, or paid subscription is required.
 4. A preview should appear below that link. It contains an English-language project overview, SVG/CSS charts, and sample metrics labeled Mock data.
 5. Use the document's table of contents, expand an FAQ, collapse/reopen the preview, and drag its lower edge to resize it.
 6. Repeat on https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md under the Chinese demo section. Its separate demo/project-overview.html document contains the matching Chinese overview, charts, and FAQ.
-7. Open https://github.com/luty4ng/readme-html/blob/main/demo/project-overview.html without a marker. Confirm a preview appears above the original source; test Source, Collapse/Expand, and the FAQ.
+7. Open https://github.com/luty4ng/readme-html/blob/main/demo/project-overview.html without a marker. Confirm a window-sized preview replaces the visible source; test Collapse/Expand, the FAQ, and resizing the browser window. Loading failures must leave the original source visible with Retry available.
 The extension has no toolbar popup. Its single purpose is static HTML document previews on GitHub.
 ```
 
 ## 本项目可采用的审核说明
 
-单一用途：在 GitHub 上预览同一公开仓库的静态 HTML 文档，包括 README 标记链接下方和 HTML 文件页源码上方的预览。
+单一用途：在 GitHub 上预览同一公开仓库的静态 HTML 文档，包括 README 标记链接下方的行内预览和 HTML 文件页的渲染视图。
 
 GitHub 页面访问：识别当前仓库、README 标记链接和 HTML 文件页源码区域，在对应位置插入预览控件；文件页请求仅绑定浏览器报告的当前文件地址。
 
@@ -147,7 +147,7 @@ Raw 主机访问：读取经过校验的同仓库公开 HTML。请求不携带 c
 
 ```text
 Single purpose:
-Preview same-repository static HTML documents below marked README links and above the source on public GitHub HTML file pages.
+Preview same-repository static HTML documents below marked README links and on public GitHub HTML file pages.
 
 GitHub page access:
 Identify the current repository, marked README links, and HTML file-page source containers to insert preview controls. File-page fetches are bound to the current HTML URL reported by the browser.

@@ -47,7 +47,7 @@ The alternate MDN smoke check adds a marker only to the local browser DOM of a p
 
 `content.js` identifies a marked README link or an HTML file page → `background.js` validates the actual sender and same-repository target → `core.js` fetches the public Raw file → `viewer.js` removes active content and creates a sandboxed document.
 
-- File-page requests use a separate message type and resolve only the browser-reported current file; a message cannot supply an alternate fetch URL. Previews mount above the existing source section and are removed/replaced during navigation.
+- File-page requests use a separate message type and resolve only the browser-reported current file; a message cannot supply an alternate fetch URL. A window-sized preview replaces the visible source after rendering. The source DOM stays intact; its original display style is restored on failure or navigation, including cloned/legacy containers. Removing a preview cancels its pending render listener and removes its resize listener. README embeds keep their existing size and Source link.
 - The worker uses the browser-reported current tab URL for top-frame requests, falling back to the sender URL when unavailable. The sender URL can retain the original document address across GitHub SPA navigation; both the sender origin and resolved current-page target are validated.
 - Content scripts run only on `https://github.com/*`.
 - The background host permission is limited to `https://raw.githubusercontent.com/*`.
