@@ -4,7 +4,7 @@
 
 # README HTML
 
-### 让 HTML 文档，直接出现在 GitHub README 里。
+<p><strong>让 HTML 文档，直接出现在 GitHub README 里。</strong></p>
 
 **一条 Markdown 链接，就能展示可视化文档。**<br>
 让报告、图表和项目说明与代码放在一起。<br>
@@ -14,7 +14,7 @@
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT 许可证](https://img.shields.io/badge/license-MIT-34d399)](../../LICENSE)
 
-**[下载插件](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · **[在线演示](#在线演示)** · [文档](#文档) · [反馈问题](https://github.com/luty4ng/readme-html/issues)
+**[下载插件](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · **[在线演示](#在线演示)** · [使用问答](#使用问答) · [文档](#文档) · [反馈问题](https://github.com/luty4ng/readme-html/issues)
 
 [English](../../README.md) · **简体中文**
 
@@ -27,6 +27,8 @@
 </div>
 
 <br>
+
+README HTML 是免费、采用 MIT 许可证的 Chrome 插件，用于在 GitHub README 内直接渲染同一公开仓库中的静态 HTML 文件。在 Markdown 链接末尾添加 `#html-preview`，安装并启用插件的读者就能在链接下方看到文档。无需构建、账号或额外托管。
 
 > [!NOTE]
 > **开发预览版 · Chrome 120+ · GitHub 公开仓库。** 目前通过开发者模式安装，尚未在 Chrome 应用商店上架。
@@ -135,6 +137,44 @@ git clone https://github.com/luty4ng/readme-html.git
 
 **使用 AI 生成报告？** 可以要求：单个 UTF-8 HTML 文件，内嵌 CSS，使用 SVG 或 CSS 绘制图表，不使用 JavaScript 和外部资源。
 
+需要可复制的完整 HTML 报告和验证步骤，可阅读[如何在 GitHub README 中嵌入 HTML 报告](./EMBED_HTML_IN_GITHUB_README.md)。
+
+## 使用问答
+
+### GitHub README 能直接显示 HTML 文件吗？
+
+GitHub Markdown 支持部分 HTML 标签，但渲染流程会移除脚本和内嵌样式。链接到仓库中的 `.html` 文件，并不会把该文件作为带样式的文档嵌入 README。README HTML 为安装了插件的读者补充这一预览。参见 [GitHub 渲染流程](https://github.com/github/markup#github-markup)。
+
+### 每位读者都需要安装 Chrome 插件吗？
+
+是的。每位读者都需要安装并启用 README HTML，才能看到行内预览。未安装时，README 仍显示普通的 GitHub 文件链接，读者可以查看或下载 HTML 源码。如果需要无需安装即可看到效果，可以同时提供截图或单独托管的页面。
+
+### 支持 JavaScript、外部图片和样式表吗？
+
+不支持。README HTML 显示静态文档，支持内嵌 CSS、SVG、允许的 Base64 位图和 data 字体。JavaScript、外部样式表、外部图片及相对路径资源文件会被阻止。因此适合自包含的报告和页面样稿，不能用于运行交互式 Web 应用。
+
+### 支持私有仓库或其他 Git 托管平台吗？
+
+不支持。v0.1.1 仅支持 `github.com` 上的公开仓库及同仓库 HTML 文件，不认证访问私有仓库，也不支持 GitHub Enterprise、GitLab、跨仓库预览、Issue 或 PR 内的预览。文件必须为 UTF-8 编码且不超过 1 MiB。
+
+### README HTML 免费吗，需要注册账号吗？
+
+README HTML 免费开源，采用 [MIT 许可证](../../LICENSE)，无需账号、订阅、API Key 或后台服务。插件没有统计服务或持久化的使用记录；GitHub 会收到加载公开文件所需的请求。详见[隐私政策](../../PRIVACY.md)。
+
+### 应该选择 README HTML、GitHub Pages 还是截图？
+
+根据读者如何访问结果来选择：
+
+| 方案 | 阅读位置 | 读者需要什么 | 适合场景 |
+| --- | --- | --- | --- |
+| README HTML | README 内的静态预览 | Chrome 120+，安装并启用插件 | 与代码一起保存的自包含报告 |
+| GitHub Pages | 独立托管的网页 | 浏览器，无需本插件 | 公开文档网站或 Web 演示 |
+| Markdown 截图 | README 内的图片 | 浏览器，无需本插件 | 固定的视觉摘要，文档文字无法直接选中 |
+
+[GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages) 将 HTML、CSS 和 JavaScript 托管为网站。README HTML 在仓库原有文档旁提供行内静态预览。
+
+以上说明针对 v0.1.1，于 2026 年 10 月 26 日按实现核对。维护者为 [luty4ng](https://github.com/luty4ng)，欢迎通过 [Issues](https://github.com/luty4ng/readme-html/issues) 提交更正和兼容性反馈。
+
 ## 兼容性
 
 | 当前支持 | 使用边界 |
@@ -182,6 +222,7 @@ npm run test:browser
 
 | 指南 | 内容 |
 | --- | --- |
+| [HTML 报告教程](./EMBED_HTML_IN_GITHUB_README.md) · [English](../EMBED_HTML_IN_GITHUB_README.md) | 完整示例、README 标记、预期效果和排查步骤 |
 | [开发指南](../DEVELOPMENT.md) | 架构、权限、自动化测试与真实 GitHub 验证 |
 | [上架与分发](../PUBLISHING.md) | ZIP 打包、商店材料与 Chrome 应用商店提交流程 |
 | [隐私政策](../../PRIVACY.md) | 数据处理方式与用户选择 |

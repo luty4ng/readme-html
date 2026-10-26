@@ -4,7 +4,7 @@
 
 # README HTML
 
-### Your HTML documents. Right inside GitHub.
+<p><strong>Your HTML documents. Right inside GitHub.</strong></p>
 
 **Turn one Markdown link into a visual document.**<br>
 Keep reports, diagrams, and project overviews beside your code.<br>
@@ -14,7 +14,7 @@ Read them in your README with a free, open-source Chrome extension.
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT license](https://img.shields.io/badge/license-MIT-34d399)](./LICENSE)
 
-**[Download](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · **[Live demo](#live-demo)** · [Documentation](#documentation) · [Report an issue](https://github.com/luty4ng/readme-html/issues)
+**[Download](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · **[Live demo](#live-demo)** · [FAQ](#frequently-asked-questions) · [Documentation](#documentation) · [Report an issue](https://github.com/luty4ng/readme-html/issues)
 
 **English** · [简体中文](./docs/zh-CN/README.md)
 
@@ -27,6 +27,8 @@ Read them in your README with a free, open-source Chrome extension.
 </div>
 
 <br>
+
+README HTML is a free, MIT-licensed Chrome extension that renders static HTML files from the same public GitHub repository inline in its README. Add a Markdown link ending in `#html-preview`; readers with the extension installed see the document below the link. No build step, account, or separate hosting is required.
 
 > [!NOTE]
 > **Developer preview · Chrome 120+ · public GitHub repositories.** Installation currently uses Developer mode. README HTML is not yet listed in the Chrome Web Store.
@@ -135,6 +137,44 @@ Save this as `docs/report.html`:
 
 **Generating a report with AI?** Ask for a single UTF-8 HTML file, inline CSS, SVG or CSS charts, and no JavaScript or external resources.
 
+For a complete example with a copyable HTML report and verification steps, follow [How to embed an HTML report in a GitHub README](./docs/EMBED_HTML_IN_GITHUB_README.md).
+
+## Frequently asked questions
+
+### Can GitHub README display an HTML file directly?
+
+GitHub supports selected HTML inside Markdown, but its rendering pipeline removes scripts and inline styles. Linking to a repository's `.html` file does not embed that file as a styled document in the README. README HTML adds that preview for readers with the extension installed. See [GitHub's rendering pipeline](https://github.com/github/markup#github-markup).
+
+### Does every reader need to install the Chrome extension?
+
+Yes. Each reader needs README HTML installed and enabled to see the inline preview. Readers without it retain the normal GitHub file link and can inspect or download the HTML source. Use a screenshot or a separately hosted page when the result must be visible without an extension.
+
+### Can it run JavaScript or load external images and styles?
+
+No. README HTML displays static documents with inline CSS, SVG, permitted base64 raster images, and data fonts. JavaScript, external stylesheets, external images, and relative asset files are blocked. This makes it suitable for self-contained reports and mockups, rather than interactive web applications.
+
+### Does it support private repositories or other Git hosting services?
+
+No. Version 0.1.1 supports public repositories on `github.com` and same-repository HTML files only. It does not authenticate to private repositories or support GitHub Enterprise, GitLab, cross-repository previews, or previews in Issues and pull requests. Files must be UTF-8 and no larger than 1 MiB.
+
+### Is README HTML free, and does it require an account?
+
+README HTML is free and open source under the [MIT license](./LICENSE). It requires no account, subscription, API key, or backend. The extension has no analytics or persistent usage storage; GitHub receives the public file requests needed to load documents. See the [privacy policy](./PRIVACY.md).
+
+### Should I use README HTML, GitHub Pages, or a screenshot?
+
+Choose based on how readers need to access the result:
+
+| Option | Where readers see it | What readers need | Best fit |
+| --- | --- | --- | --- |
+| README HTML | A static preview inside the README | Chrome 120+ with the extension enabled | Self-contained reports stored beside code |
+| GitHub Pages | A separately hosted web page | A browser, without this extension | A public documentation site or web demo |
+| Screenshot in Markdown | An image inside the README | A browser, without this extension | A fixed visual summary without selectable document text |
+
+[GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages) hosts HTML, CSS, and JavaScript as a website. README HTML adds an inline static preview while keeping the source document in the repository.
+
+These answers describe v0.1.1 and were checked against its implementation on October 26, 2026. Maintained by [luty4ng](https://github.com/luty4ng); corrections and compatibility reports are welcome through [Issues](https://github.com/luty4ng/readme-html/issues).
+
 ## Compatibility
 
 | Supported | Current boundaries |
@@ -182,6 +222,7 @@ Small fixes and reproducible compatibility reports are welcome.
 
 | Resource | Contents |
 | --- | --- |
+| [HTML report tutorial](./docs/EMBED_HTML_IN_GITHUB_README.md) · [中文](./docs/zh-CN/EMBED_HTML_IN_GITHUB_README.md) | A working document, README marker, expected result, and troubleshooting |
 | [Development guide](./docs/DEVELOPMENT.md) | Architecture, permissions, fixture tests, and real GitHub checks |
 | [Distribution guide](./docs/PUBLISHING.md) · 中文 | ZIP packaging and Chrome Web Store preparation |
 | [Privacy policy](./PRIVACY.md) | Data handling, GitHub requests, and user choices |
