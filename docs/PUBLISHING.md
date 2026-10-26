@@ -125,10 +125,10 @@ Privacy: https://github.com/luty4ng/readme-html/blob/main/PRIVACY.md
 No account, login, API key, or paid subscription is required.
 1. Install the submitted extension in Chrome 120 or later.
 2. Open https://github.com/luty4ng/readme-html and refresh if necessary.
-3. Scroll to "Live demo". The link "Open the visual project overview" references demo/project-overview.html#html-preview.
-4. A preview should appear below that link. It contains a Chinese-language project overview, SVG/CSS charts, and sample metrics labeled Mock data.
+3. Scroll to "Live demo". The link "Open the visual project overview" references demo/project-overview.en.html#html-preview.
+4. A preview should appear below that link. It contains an English-language project overview, SVG/CSS charts, and sample metrics labeled Mock data.
 5. Use the document's table of contents, expand an FAQ, collapse/reopen the preview, and drag its lower edge to resize it.
-6. Repeat on https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md under the Chinese demo section.
+6. Repeat on https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md under the Chinese demo section. Its separate demo/project-overview.html document contains the matching Chinese overview, charts, and FAQ.
 The extension has no toolbar popup. Its only purpose is inline static HTML previews in marked GitHub READMEs.
 ```
 

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README HTML · Visual project overview</title>
+  <style>
+    :root { color-scheme: light; --ink:#192d48; --muted:#53637b; --blue:#335cd7; --line:#dce3ef; --paper:#fff; --wash:#f1f5ff; --green:#17765b; --purple:#7357b6; font:16px/1.75 "Segoe UI","Microsoft YaHei",sans-serif; color:var(--ink); background:#f8faff; }
+    * { box-sizing:border-box; }
+    html { scroll-padding-top:80px; }
+    body { margin:0; }
+    a { color:var(--blue); text-underline-offset:4px; }
+    a:focus-visible,summary:focus-visible { outline:3px solid var(--blue); outline-offset:4px; border-radius:4px; }
+    .masthead { padding:15px 28px; border-bottom:1px solid var(--line); background:var(--paper); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .brand { display:flex; align-items:center; gap:10px; font-size:17px; font-weight:750; }
+    .brand svg { width:29px; height:29px; color:var(--blue); }
+    .version { font-size:12px; color:var(--muted); }
+    .container { max-width:1040px; margin:auto; padding:0 clamp(18px,5vw,48px); }
+    .hero { padding:42px 0 30px; }
+    .pills { display:flex; flex-wrap:wrap; gap:8px; }
+    .pill { display:inline-block; padding:3px 10px; border:1px solid var(--line); border-radius:5px; background:var(--paper); font-size:12px; color:var(--muted); }
+    .pill.blue { color:#2948a6; background:#edf1ff; border-color:#cfd9ff; }
+    h1 { font-size:clamp(30px,5.4vw,52px); line-height:1.2; letter-spacing:-.04em; max-width:780px; margin:20px 0 16px; text-wrap:balance; }
+    .lead { color:var(--muted); max-width:720px; margin:0; }
+    .hero-note { color:var(--muted); font-size:13px; margin-top:18px; }
+    nav { display:flex; flex-wrap:wrap; gap:4px 20px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 0; }
+    nav a { display:flex; align-items:center; min-height:44px; text-decoration:none; font-size:14px; font-weight:650; }
+    section { padding:34px 0; border-bottom:1px solid var(--line); }
+    h2 { font-size:24px; line-height:1.4; letter-spacing:-.02em; margin:0 0 10px; }
+    h3 { font-size:16px; margin:0 0 8px; }
+    p { margin:0 0 14px; }
+    .sub { color:var(--muted); font-size:14px; margin-bottom:22px; max-width:740px; }
+    .embed { margin:25px 0 0; border:1px solid #bdccef; border-radius:10px; overflow:hidden; background:var(--paper); }
+    .embed-top { display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--line); background:#edf2ff; font-size:12px; }
+    .embed-top span { color:var(--muted); }
+    .embed-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+    .source { padding:22px; min-width:0; border-right:1px solid var(--line); background:#f8faff; }
+    .caption { display:block; font-size:12px; color:var(--muted); margin-bottom:12px; }
+    code,pre { font-family:Consolas,"Cascadia Code",monospace; font-size:13px; }
+    pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.8; }
+    p code,li code,td code { background:#edf1fa; padding:2px 5px; border-radius:3px; overflow-wrap:anywhere; }
+    .token { color:#415bbe; }
+    .preview { padding:22px; background:var(--paper); }
+    .mini-title { font-size:18px; font-weight:750; }
+    .mini-copy { font-size:13px; color:var(--muted); }
+    .mini-chart { height:58px; display:flex; gap:8px; align-items:flex-end; margin:20px 0 10px; }
+    .mini-chart span { background:#6e85e5; border-radius:3px 3px 0 0; flex:1; }
+    .mini-chart span:last-child { background:var(--blue); }
+    .mini-key { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; gap:10px; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .feature { padding:0 0 0 15px; border-left:3px solid #bdccef; }
+    .feature p { font-size:14px; color:var(--muted); margin:0; }
+    .two { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:24px; }
+    .file-tree { border:1px solid var(--line); border-radius:8px; padding:20px; background:var(--paper); }
+    .code-box { background:#edf2ff; border-left:3px solid var(--blue); padding:16px; margin:14px 0; }
+    ol { margin:0; padding-left:24px; }
+    li { padding-left:4px; margin-bottom:12px; }
+    .hint { margin-top:18px; padding:12px 16px; background:#eaf5f0; color:#185e4b; font-size:13px; border-radius:6px; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:22px 0; }
+    .step { position:relative; padding:18px 14px; background:var(--paper); border:1px solid var(--line); border-radius:8px; }
+    .step-num { font-size:12px; color:var(--blue); display:block; margin-bottom:9px; }
+    .step strong { font-size:14px; display:block; }
+    .step p { font-size:12px; color:var(--muted); margin:6px 0 0; }
+    .boundary { padding:20px; background:#edf1ff; display:flex; gap:16px; align-items:flex-start; border-radius:8px; }
+    .boundary svg { color:var(--blue); flex:0 0 30px; width:30px; height:34px; }
+    .boundary p { color:var(--muted); font-size:13px; margin:0; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; background:var(--paper); }
+    th,td { text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+    th { font-weight:650; background:#edf2fb; }
+    th:first-child { width:28%; } th:nth-child(2) { width:22%; }
+    .yes { color:var(--green); font-weight:700; }
+    .no { color:#875d13; font-weight:700; }
+    .mock-label { display:inline-block; font-size:12px; color:#704d11; background:#fff2d3; border:1px solid #ead8ad; padding:3px 9px; border-radius:4px; margin-bottom:12px; }
+    .dashboard { padding:22px; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:22px; }
+    .stat-label { font-size:12px; color:var(--muted); }
+    .stat-value { display:block; font-size:30px; font-weight:750; line-height:1.4; letter-spacing:-.03em; }
+    .stat-foot { font-size:12px; color:var(--muted); }
+    .charts { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:32px; }
+    .bar-row { display:grid; grid-template-columns:56px minmax(0,1fr) 32px; gap:10px; align-items:center; font-size:12px; margin-top:16px; }
+    .track { height:12px; background:#eef1f7; border-radius:3px; overflow:hidden; }
+    .bar { height:100%; background:var(--blue); border-radius:3px; }
+    .donut-row { display:flex; align-items:center; gap:18px; margin-top:20px; flex-wrap:wrap; }
+    .donut { width:112px; height:112px; flex:0 0 112px; border-radius:50%; background:conic-gradient(var(--blue) 0 50%,var(--purple) 50% 80%,#2b857a 80%); display:grid; place-items:center; }
+    .donut-center { width:76px; height:76px; border-radius:50%; background:var(--paper); display:grid; place-content:center; text-align:center; line-height:1.4; }
+    .donut-center strong { font-size:20px; } .donut-center span { font-size:10px; color:var(--muted); }
+    .legend { font-size:12px; color:var(--muted); display:grid; gap:6px; }
+    .legend span { display:flex; align-items:center; gap:7px; }
+    .dot { display:inline-block; width:8px; height:8px; background:var(--blue); border-radius:2px; }
+    .legend span:nth-child(2) .dot { background:var(--purple); }
+    .legend span:nth-child(3) .dot { background:#2b857a; }
+    .milestones { display:grid; gap:0; padding-left:18px; margin-top:20px; border-left:2px solid var(--line); }
+    .milestone { position:relative; padding:0 0 20px 8px; }
+    .milestone::before { content:""; position:absolute; left:-24px; top:8px; width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #9baccc; }
+    .milestone.done::before { background:var(--green); border-color:var(--green); }
+    .milestone strong { font-size:14px; } .milestone p { font-size:13px; color:var(--muted); margin:4px 0 0; }
+    .small-tag { display:inline-block; margin-left:8px; padding:0 6px; font-size:11px; border-radius:3px; background:#edf1fa; color:var(--muted); }
+    details { border-bottom:1px solid var(--line); }
+    summary { padding:14px 4px; min-height:48px; cursor:pointer; font-size:14px; font-weight:650; }
+    details p { font-size:13px; color:var(--muted); padding:0 4px 4px; }
+    footer { padding:28px 0 36px; color:var(--muted); font-size:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    @media(max-width:700px) { .grid { grid-template-columns:1fr; gap:18px; } .two,.charts { grid-template-columns:1fr; } .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .embed-body { grid-template-columns:1fr; } .source { border-right:0; border-bottom:1px solid var(--line); } .hero { padding-top:28px; } }
+    @media(max-width:420px) { .masthead { padding:12px 18px; } .stats { gap:8px; } .stat-value { font-size:25px; } .dashboard { padding:16px; } th,td { padding:10px 7px; font-size:12px; } h2 { font-size:22px; } }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><svg viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="7" fill="#edf1ff"/><path d="m11 9-6 6 6 6m8-12 6 6-6 6m-3-14-3 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>README HTML</div>
+    <span class="version">v0.1.1 · MIT License · Chrome 120+</span>
+  </header>
+  <main class="container">
+    <div class="hero">
+      <div class="pills"><span class="pill blue">Free, open-source extension</span><span class="pill">Static HTML previews</span><span class="pill">No backend</span></div>
+      <h1>Your HTML documents.<br>Right inside your README.</h1>
+      <p class="lead">Keep AI-generated reports, project overviews, and CSS charts in your repository. Add a Markdown link so readers with the extension can view the full HTML document inside the README.</p>
+      <div class="embed" aria-label="Embedding syntax and an illustrative static preview">
+        <div class="embed-top"><strong>One link. A visual document.</strong><span>Illustrative layout below</span></div>
+        <div class="embed-body">
+          <div class="source"><span class="caption">Add to README.md</span><pre><span class="token">[View the project report]</span>(./docs/report.html<span class="token">#html-preview</span>)</pre></div>
+          <div class="preview"><div class="mini-title">Project progress report</div><p class="mini-copy">Keep the document's own colors, layout, and charts.</p><div class="mini-chart" aria-hidden="true"><span style="height:28%"></span><span style="height:45%"></span><span style="height:38%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:90%"></span></div><div class="mini-key"><span>CSS charts, no scripts</span><span>Illustration</span></div></div>
+        </div>
+      </div>
+      <p class="hero-note">This project overview is itself a single-file HTML example. With the extension installed, it appears inside the repository's README.</p>
+    </div>
+    <nav aria-label="Document contents"><a href="#quickstart">Quick start</a><a href="#workflow">How it works</a><a href="#support">Compatibility</a><a href="#mock-report">Sample report</a><a href="#faq">FAQ</a></nav>
+    <section aria-labelledby="features-title">
+      <h2 id="features-title">From a file link to a readable document</h2>
+      <p class="sub">For developers who already have self-contained HTML documents and want GitHub readers to view them more easily.</p>
+      <div class="grid">
+        <article class="feature"><h3>Keep the document's design</h3><p>Combine inline CSS, multiple columns, tables, SVG, and CSS charts in a single document.</p></article>
+        <article class="feature"><h3>Keep your repository workflow</h3><p>Version HTML alongside code. Select documents with ordinary Markdown links, with multiple previews in the same repository.</p></article>
+        <article class="feature"><h3>Read inside the README</h3><p>Collapse, expand, scroll, and resize the preview. Readers without the extension still see the original file link.</p></article>
+      </div>
+    </section>
+    <section id="quickstart" aria-labelledby="quickstart-title">
+      <h2 id="quickstart-title">Quick start</h2>
+      <p class="sub">You need a public repository, a self-contained HTML file, and the README HTML extension installed.</p>
+      <div class="two">
+        <div><div class="file-tree"><span class="caption">Suggested repository structure</span><pre>your-repository/
+├── README.md
+├── docs/
+│   └── report.html
+└── src/</pre></div><div class="code-box"><span class="caption">The complete marker in README.md</span><pre>[View the project report](./docs/report.html#html-preview)</pre></div></div>
+        <ol><li><strong>Install the extension</strong><br>Open <code>chrome://extensions</code>, enable Developer mode, and load this project's <code>extension</code> folder.</li><li><strong>Commit the document and link</strong><br>Put the UTF-8 HTML file and the link ending in <code>#html-preview</code> in the same public repository. Keep the link in its own paragraph.</li><li><strong>Refresh the GitHub README</strong><br>The extension loads the document below the link. Refresh open GitHub pages after reloading the extension too.</li></ol>
+      </div>
+      <p class="hint">Prompt an AI for a compatible document: “Generate a single UTF-8 HTML file with inline CSS and SVG or CSS charts. Do not use JavaScript, external fonts, images, or stylesheets.”</p>
+    </section>
+    <section id="workflow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">How a marker becomes a preview</h2>
+      <p class="sub">This is the extension's current loading and rendering workflow. No GitHub Pages site is required.</p>
+      <div class="flow"><div class="step"><span class="step-num">Step 1</span><strong>Find README markers</strong><p>Find HTML file links ending in #html-preview.</p></div><div class="step"><span class="step-num">Step 2</span><strong>Validate the repository and URL</strong><p>Accept HTML files from the current repository; reject cross-repository and external URLs.</p></div><div class="step"><span class="step-num">Step 3</span><strong>Fetch the HTML source</strong><p>Read the public file from GitHub Raw without sending login credentials.</p></div><div class="step"><span class="step-num">Step 4</span><strong>Render in an isolated area</strong><p>Keep static layouts; block scripts, external resources, and form submissions.</p></div></div>
+      <div class="boundary"><svg viewBox="0 0 30 34" fill="none" aria-hidden="true"><path d="m15 2 12 5v9c0 7-5 12-12 16C8 28 3 23 3 16V7l12-5Z" stroke="currentColor" stroke-width="2"/><path d="m9 16 4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h3>A separate space for each document</h3><p>A sandboxed iframe and content security policy restrict document behavior. The extension preserves GitHub's security policy and does not run repository JavaScript in the GitHub page. Preview text can still be misleading; check its source.</p></div></div>
+    </section>
+    <section id="support" aria-labelledby="support-title">
+      <h2 id="support-title">v0.1 compatibility</h2>
+      <p class="sub">The priority is reliable static documents. This table describes the current implementation's limits.</p>
+      <table><thead><tr><th scope="col">Capability</th><th scope="col">Status</th><th scope="col">Details</th></tr></thead><tbody><tr><td>HTML and inline CSS</td><td class="yes">Supported</td><td>Self-contained layouts, colors, tables, and responsive styles.</td></tr><tr><td>Inline SVG / CSS charts</td><td class="yes">Supported</td><td>Graphics are stored in the HTML, without chart scripts.</td></tr><tr><td>Native disclosure panels</td><td class="yes">Supported</td><td>Use <code>details</code> and <code>summary</code> without JavaScript.</td></tr><tr><td>Multiple documents / dynamic navigation</td><td class="yes">Supported</td><td>Rescans README changes; collapse, retry, and resize previews.</td></tr><tr><td>JavaScript / external resources</td><td class="no">Not supported</td><td>Scripts, external CSS, ordinary image paths, and external fonts are blocked.</td></tr><tr><td>Private repositories / Enterprise</td><td class="no">Not supported</td><td>This release supports public repository READMEs on github.com.</td></tr><tr><td>File size / encoding</td><td>≤ 1 MiB / UTF-8</td><td>A 15-second fetch timeout; errors are displayed when limits are exceeded.</td></tr></tbody></table>
+    </section>
+    <section id="mock-report" aria-labelledby="report-title">
+      <span class="mock-label">Mock data · For layout demonstration only</span>
+      <h2 id="report-title">A project weekly report inside your README</h2>
+      <p class="sub">Every number below is fictional. None represents this project's audience, usage, or measured performance. All charts use CSS.</p>
+      <div class="dashboard">
+        <div class="stats"><div><span class="stat-label">Example views</span><strong class="stat-value">1,280</strong><span class="stat-foot">Fictional metric</span></div><div><span class="stat-label">Example documents</span><strong class="stat-value">24</strong><span class="stat-foot">Fictional metric</span></div><div><span class="stat-label">Example completion</span><strong class="stat-value">92%</strong><span class="stat-foot">Fictional metric</span></div></div>
+        <div class="charts"><div><h3>Document views over time</h3><span class="caption">Four weeks of sample data, in views</span><div class="bar-row"><span>Week 1</span><div class="track"><div class="bar" style="width:32%"></div></div><span>160</span></div><div class="bar-row"><span>Week 2</span><div class="track"><div class="bar" style="width:48%"></div></div><span>240</span></div><div class="bar-row"><span>Week 3</span><div class="track"><div class="bar" style="width:76%"></div></div><span>380</span></div><div class="bar-row"><span>Week 4</span><div class="track"><div class="bar" style="width:100%"></div></div><span>500</span></div></div><div><h3>Example document types</h3><div class="donut-row"><div class="donut" role="img" aria-label="Example documents: reports 50%, project overviews 30%, other 20%"><div class="donut-center"><strong>24</strong><span>sample documents</span></div></div><div class="legend"><span><i class="dot" aria-hidden="true"></i>Reports 50%</span><span><i class="dot" aria-hidden="true"></i>Project overviews 30%</span><span><i class="dot" aria-hidden="true"></i>Other 20%</span></div></div></div></div>
+      </div>
+    </section>
+    <section aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title">What to validate next</h2>
+      <p class="sub">This is an early, free, open-source project. First learn whether developers repeatedly embed documents, then choose the next features.</p>
+      <div class="milestones"><div class="milestone done"><strong>Static document previews<span class="small-tag">Implemented</span></strong><p>Same-repository markers, inline CSS, isolated rendering, retry, and multiple previews.</p></div><div class="milestone"><strong>Trials in real repositories<span class="small-tag">Validation target</span></strong><p>Invite 5 developers who already need to share HTML documents. Over two weeks, observe whether at least 3 use it a second time.</p></div><div class="milestone"><strong>Possible future features<span class="small-tag">Not implemented</span></strong><p>Store availability, relative assets, and private repository support depend on trial feedback. These are neither current features nor delivery commitments.</p></div></div>
+    </section>
+    <section id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Frequently asked questions</h2>
+      <p class="sub">Click a question to expand its answer. These panels use the browser's native HTML disclosure controls.</p>
+      <details><summary>Why do I only see a link after installing?</summary><p>Refresh GitHub first. Check that the extension is enabled, the page is a public repository README, the link ends in #html-preview, and the HTML file is in the same repository.</p></details>
+      <details><summary>Can I embed any website in a README?</summary><p>The current version only reads .html or .htm files from the same repository. External websites and cross-repository links are not supported.</p></details>
+      <details><summary>What do readers without the extension see?</summary><p>They see the ordinary GitHub file link. They can still inspect or download the HTML source; GitHub does not render the file inside the README by default.</p></details>
+      <details><summary>Why are my images, fonts, or charts missing?</summary><p>This release blocks external resources and JavaScript. Use inline CSS, inline SVG, or base64 raster images. Replace script-based charts with static SVG or CSS charts.</p></details>
+      <details><summary>Does the preview automatically fit the whole document?</summary><p>It uses a scrollable area with a fixed initial height. Drag the preview's lower edge to resize it, or scroll inside. Automatic document-height measurement is not implemented.</p></details>
+      <details><summary>Does the extension collect usage data or upload documents?</summary><p>It has no analytics, accounts, storage, or third-party preview service. Documents are read from GitHub Raw into browser memory; GitHub and network providers still receive the file requests.</p></details>
+    </section>
+    <footer><span>README HTML · MIT License · Free to use, modify, and distribute</span><span>Single-file HTML / Inline CSS / No external dependencies</span><a href="#quickstart">Back to quick start</a></footer>
+  </main>
+</body>
+</html>

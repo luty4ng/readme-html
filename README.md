@@ -96,11 +96,11 @@ An unpacked extension does not automatically update. Replace the extracted files
 
 With README HTML enabled, **a visual project document appears below this link**:
 
-[Open the visual project overview](./demo/project-overview.html#html-preview)
+[Open the visual project overview](./demo/project-overview.en.html#html-preview)
 
-Try its table of contents, expand an FAQ, collapse the preview, or drag the preview's lower edge to resize it. This Chinese-language sample includes inline SVG, CSS bar/donut charts, and a compatibility table. Its sample metrics are labeled **Mock data**.
+Try its table of contents, expand an FAQ, collapse the preview, or drag the preview's lower edge to resize it. This English-language sample includes inline SVG, CSS bar/donut charts, and a compatibility table. Its sample metrics are labeled **Mock data**.
 
-Without the extension, the original GitHub file link remains available. See the screenshot above for the rendered result, or try the [smaller English example](./demo/README.md).
+Without the extension, the original GitHub file link remains available. See the screenshot above for the rendered result, or browse [all demo documents](./demo/README.md).
 
 ## Embed your own document
 

@@ -39,6 +39,7 @@ const os = require("node:os");
 
     const demo = await fs.readFile(path.join(project, "demo/report.html"), "utf8");
     const overview = await fs.readFile(path.join(project, "demo/project-overview.html"), "utf8");
+    const overviewEnglish = await fs.readFile(path.join(project, "demo/project-overview.en.html"), "utf8");
     const rawRequests = [];
     const unexpected = [];
     const blocked = [];
@@ -57,6 +58,7 @@ const os = require("node:os");
     await context.route("https://raw.githubusercontent.com/**", async (route) => {
       const url = route.request().url();
       rawRequests.push(url);
+      if (url.endsWith("/project-overview.en.html")) return route.fulfill({ status: 200, contentType: "text/plain; charset=utf-8", body: overviewEnglish });
       if (url.endsWith("/project-overview.html")) return route.fulfill({ status: 200, contentType: "text/plain; charset=utf-8", body: overview });
       if (url.endsWith("/missing.html") && !missingRecovered) return route.fulfill({ status: 404, body: "Not found" });
       if (url.endsWith("/empty.html")) return route.fulfill({ status: 200, body: "  " });
@@ -125,29 +127,40 @@ const os = require("node:os");
         document.querySelector(".markdown-body").innerHTML = `<h1>README checks</h1>${html}`;
       }, links);
     }
-    await replaceLinks(`<p><a href="${base}/blob/main/demo/project-overview.html#html-preview">Visual HTML README</a></p>`);
-    await page.waitForFunction(() => document.querySelector("[data-readme-html]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
-    const visual = documentFrame();
-    assert.ok(visual);
-    await visual.waitForSelector("#faq", { timeout: 10000 });
-    assert.match(await visual.locator("h1").innerText(), /直接读懂 HTML/);
-    assert.equal(await visual.locator("svg").count(), 2);
-    assert.equal(await visual.locator(".bar-row").count(), 4);
-    assert.equal(await visual.locator("script,link,[src^=http]").count(), 0);
-    await visual.getByRole("link", { name: "常见问题", exact: true }).click();
-    await visual.locator("summary").first().click();
-    assert.equal(await visual.locator("details").first().getAttribute("open"), "");
-    await visual.getByRole("link", { name: "快速开始", exact: true }).click();
-    await visual.evaluate(() => scrollTo(0, 0));
-    await page.waitForTimeout(250);
-    await page.screenshot({ path: path.join(results, "visual-readme-embedded.png"), fullPage: true });
-    await page.setViewportSize({ width: 375, height: 812 });
-    assert.equal(await visual.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-    await page.waitForTimeout(250);
-    await page.screenshot({ path: path.join(results, "visual-readme-mobile.png"), fullPage: true });
-    await page.setViewportSize({ width: 1280, height: 950 });
-    pass("visual HTML README: UTF-8, SVG, CSS charts, fragment navigation, native FAQ and 375px layout");
+    for (const edition of [
+      { file: "project-overview.html", lang: "zh-CN", heading: /直接读懂 HTML/, faq: "常见问题", start: "快速开始", mock: /模拟数据/ },
+      { file: "project-overview.en.html", lang: "en", heading: /Right inside your README/, faq: "FAQ", start: "Quick start", mock: /Mock data/ }
+    ]) {
+      await replaceLinks(`<p><a href="${base}/blob/main/demo/${edition.file}#html-preview">Visual HTML README</a></p>`);
+      await page.waitForFunction(() => document.querySelector("[data-readme-html]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+      const visual = documentFrame();
+      assert.ok(visual);
+      await visual.waitForSelector("#faq", { timeout: 10000 });
+      assert.match(await visual.locator("h1").innerText(), edition.heading);
+      assert.equal(await visual.locator("html").getAttribute("lang"), edition.lang);
+      assert.match(await visual.locator(".mock-label").innerText(), edition.mock);
+      if (edition.lang === "en") {
+        assert.doesNotMatch(await visual.locator("body").innerText(), /[\u3400-\u9fff]/);
+        assert.doesNotMatch((await visual.locator("[aria-label]").evaluateAll(nodes => nodes.map(node => node.getAttribute("aria-label")))).join(" "), /[\u3400-\u9fff]/);
+      }
+      assert.equal(await visual.locator("svg").count(), 2);
+      assert.equal(await visual.locator(".bar-row").count(), 4);
+      assert.equal(await visual.locator("script,link,[src^=http]").count(), 0);
+      await visual.getByRole("link", { name: edition.faq, exact: true }).click();
+      await visual.locator("summary").first().click();
+      assert.equal(await visual.locator("details").first().getAttribute("open"), "");
+      await visual.getByRole("link", { name: edition.start, exact: true }).click();
+      await visual.evaluate(() => scrollTo(0, 0));
+      await page.waitForTimeout(250);
+      await page.screenshot({ path: path.join(results, `visual-readme-${edition.lang}-embedded.png`), fullPage: true });
+      await page.setViewportSize({ width: 375, height: 812 });
+      assert.equal(await visual.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      await page.waitForTimeout(250);
+      await page.screenshot({ path: path.join(results, `visual-readme-${edition.lang}-mobile.png`), fullPage: true });
+      await page.setViewportSize({ width: 1280, height: 950 });
+      pass(`visual HTML README (${edition.lang}): language, mock labels, SVG, CSS charts, navigation, FAQ and 375px layout`);
+    }
     await replaceLinks(`<p><a href="${base}/blob/main/unsafe.html#html-preview">Unsafe fixture</a></p>`);
     await page.waitForFunction(() => document.querySelector("[data-readme-html]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
     const unsafe = documentFrame();
@@ -250,30 +263,35 @@ const os = require("node:os");
     }
     if (process.argv.includes("--published")) {
       await context.unrouteAll();
-      await page.goto("https://github.com/luty4ng/readme-html", { waitUntil: "domcontentloaded", timeout: 30000 });
-      // No local marker injection: this link and HTML must both come from the published repository.
-      await page.locator('.markdown-body a[href$="/demo/project-overview.html#html-preview"]').first().waitFor({ timeout: 20000 });
-      await page.waitForFunction(() => [...document.querySelectorAll("[data-readme-html]")].some(node =>
-        node.shadowRoot.querySelector(".filename")?.textContent === "project-overview.html" &&
-        node.shadowRoot.querySelector(".viewport:not([hidden])")), null, { timeout: 25000 });
-      // The README's introduction and screenshot can place the preview below the fold.
-      // Scroll into view before testing inner-frame visibility on the real GitHub page.
-      await page.locator("[data-readme-html]").first().scrollIntoViewIfNeeded();
-      const publishedOuter = await page.locator("[data-readme-html]").first().locator("iframe").elementHandle();
-      const publishedViewer = await publishedOuter.contentFrame();
-      const publishedFrame = publishedViewer.childFrames()[0];
-      assert.ok(publishedFrame);
-      await publishedFrame.waitForSelector("#faq", { timeout: 10000 });
-      assert.match(await publishedFrame.locator("h1").innerText(), /直接读懂 HTML/);
-      await publishedFrame.getByRole("link", { name: "常见问题", exact: true }).click();
-      await publishedFrame.locator("summary").first().click();
-      assert.equal(await publishedFrame.locator("details").first().getAttribute("open"), "");
-      await publishedFrame.evaluate(() => scrollTo(0, 0));
-      await page.locator("[data-readme-html]").first().scrollIntoViewIfNeeded();
-      await page.waitForTimeout(250);
-      await page.screenshot({ path: path.join(results, "published-github.png") });
-      await page.locator("[data-readme-html]").first().screenshot({ path: path.join(results, "published-preview.png") });
-      pass("published luty4ng/readme-html: genuine README marker and Raw HTML, working FAQ, no DOM injection or mocked responses");
+      for (const edition of [
+        { url: "https://github.com/luty4ng/readme-html", file: "project-overview.en.html", heading: /Right inside your README/, faq: "FAQ" },
+        { url: "https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md", file: "project-overview.html", heading: /直接读懂 HTML/, faq: "常见问题" }
+      ]) {
+        await page.goto(edition.url, { waitUntil: "domcontentloaded", timeout: 30000 });
+        // No local marker injection: this link and HTML must both come from the published repository.
+        await page.locator(`.markdown-body a[href$="/demo/${edition.file}#html-preview"]`).first().waitFor({ timeout: 20000 });
+        await page.waitForFunction(file => [...document.querySelectorAll("[data-readme-html]")].some(node =>
+          node.shadowRoot.querySelector(".filename")?.textContent === file &&
+          node.shadowRoot.querySelector(".viewport:not([hidden])")), edition.file, { timeout: 25000 });
+        // The README's introduction and screenshot can place the preview below the fold.
+        // Scroll into view before testing inner-frame visibility on the real GitHub page.
+        await page.locator("[data-readme-html]").first().scrollIntoViewIfNeeded();
+        const publishedOuter = await page.locator("[data-readme-html]").first().locator("iframe").elementHandle();
+        const publishedViewer = await publishedOuter.contentFrame();
+        const publishedFrame = publishedViewer.childFrames()[0];
+        assert.ok(publishedFrame);
+        await publishedFrame.waitForSelector("#faq", { timeout: 10000 });
+        assert.match(await publishedFrame.locator("h1").innerText(), edition.heading);
+        await publishedFrame.getByRole("link", { name: edition.faq, exact: true }).click();
+        await publishedFrame.locator("summary").first().click();
+        assert.equal(await publishedFrame.locator("details").first().getAttribute("open"), "");
+        await publishedFrame.evaluate(() => scrollTo(0, 0));
+        await page.locator("[data-readme-html]").first().scrollIntoViewIfNeeded();
+        await page.waitForTimeout(250);
+        await page.screenshot({ path: path.join(results, `published-github-${edition.file}.png`) });
+        await page.locator("[data-readme-html]").first().screenshot({ path: path.join(results, `published-preview-${edition.file}.png`) });
+        pass(`published luty4ng/readme-html (${edition.file}): genuine README marker and Raw HTML, working FAQ, no DOM injection or mocked responses`);
+      }
     }
     await fs.writeFile(path.join(results, "browser-results.json"), JSON.stringify({ checks, rawRequests, blocked, outbound, pageErrors }, null, 2));
     console.log(`\n${checks.length} browser checks passed. Screenshots: ${results}`);
