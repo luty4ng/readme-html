@@ -2,6 +2,7 @@
 (() => {
   "use strict";
   const previews = new Map();
+  let filePreview = null;
   const css = `
     :host { display: block; margin: 16px 0; min-width: 0; color: var(--fgColor-default, #1f2328);
       font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -32,9 +33,12 @@
       .viewport { height: 400px; } }
   `;
 
-  function preview(anchor) {
+  function preview(anchor, fileSource = null) {
+    const href = anchor.href;
+    const pageUrl = location.href;
     const host = document.createElement("div");
     host.dataset.readmeHtml = "";
+    if (fileSource) host.dataset.readmeHtmlFile = "";
     const root = host.attachShadow({ mode: "open" });
     const style = document.createElement("style");
     style.textContent = css;
@@ -50,8 +54,8 @@
       <p class="note">Static preview · scripts and external resources are blocked · drag the lower edge to resize</p></div>`;
     root.append(panel);
     // Keep the original link, and put the block preview after its paragraph.
-    const block = anchor.closest("p") || anchor;
-    block.after(host);
+    if (fileSource) fileSource.before(host);
+    else (anchor.closest("p") || anchor).after(host);
     const body = root.querySelector("#preview-body");
     const status = root.querySelector(".status");
     const viewport = root.querySelector(".viewport");
@@ -59,6 +63,10 @@
     const toggle = root.querySelector(".toggle");
     root.querySelector(".filename").textContent = anchor.textContent.trim() || "HTML document";
     root.querySelector("a").hidden = true;
+    if (fileSource) root.querySelector("a").addEventListener("click", (event) => {
+      event.preventDefault();
+      fileSource.scrollIntoView({ block: "start" });
+    });
     toggle.addEventListener("click", () => {
       body.hidden = !body.hidden;
       toggle.textContent = body.hidden ? "Expand" : "Collapse";
@@ -84,11 +92,12 @@
       status.classList.remove("error");
       status.textContent = "Loading HTML…";
       try {
-        const target = ReadmeHtml.resolveTarget(anchor.href, location.href);
+        const target = fileSource ? ReadmeHtml.resolveFileTarget(pageUrl) : ReadmeHtml.resolveTarget(href, pageUrl);
         root.querySelector("a").href = target.sourceUrl;
         root.querySelector("a").hidden = false;
         root.querySelector(".filename").textContent = target.filename;
-        const response = await chrome.runtime.sendMessage({ type: "readme-html:fetch", href: anchor.href });
+        const response = await chrome.runtime.sendMessage(fileSource ?
+          { type: "readme-html:fetch-file" } : { type: "readme-html:fetch", href });
         if (!response?.ok) throw new Error(response?.error || "The extension could not load this file.");
         if (!host.isConnected) return;
         const token = crypto.randomUUID();
@@ -127,6 +136,19 @@
   function scan() {
     try {
       const supported = ReadmeHtml.repository(location.href);
+      let fileTarget = null;
+      try { fileTarget = ReadmeHtml.resolveFileTarget(location.href); } catch { /* Not an HTML file page. */ }
+      const fileSource = fileTarget ?
+        document.querySelector("#read-only-cursor-text-area")?.closest("section") || document.querySelector(".blob-wrapper") : null;
+      if (filePreview && (!fileTarget || filePreview.href !== fileTarget.sourceUrl ||
+          filePreview.source !== fileSource || !filePreview.host.isConnected)) {
+        filePreview.host.remove();
+        filePreview = null;
+      }
+      if (fileTarget && fileSource && !filePreview) {
+        const anchor = { href: fileTarget.sourceUrl, textContent: fileTarget.filename };
+        filePreview = { href: fileTarget.sourceUrl, source: fileSource, host: preview(anchor, fileSource) };
+      }
       // A link can disappear while its paragraph (and our sibling panel) survives.
       // Sweep tracked links before selecting a[href], which excludes removed hrefs.
       for (const [anchor, previous] of previews) {
@@ -158,5 +180,6 @@
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
   document.addEventListener("turbo:load", scan);
   window.addEventListener("popstate", scan);
+  window.addEventListener("hashchange", scan);
   scan();
 })();

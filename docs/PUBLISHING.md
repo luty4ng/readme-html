@@ -2,13 +2,13 @@
 
 当前版本为免费、MIT 开源的开发预览版，尚未在 Chrome Web Store 上架。
 
-官方要求核对日期：2026-10-26。README 的中英文拆分只更新文档，插件安装包仍为 v0.1.1。
+官方要求核对日期：2026-10-26。v0.1.2 新增 HTML 文件页自动预览；原有 README 标记预览保留，权限不变。
 
 ## 现在可以用哪些材料？
 
 | 材料 | 当前状态 / 入口 |
 | --- | --- |
-| 插件 ZIP | [下载 v0.1.1](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)，可作为首次上传候选包 |
+| 插件 ZIP | [下载 v0.1.2](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)，可作为首次上传候选包 |
 | 128×128 PNG 图标 | [icon-128.png](../extension/icons/icon-128.png)，已包含在 ZIP 内 |
 | 英文简介、详细说明和审核步骤 | 下方已提供可复制文案 |
 | 隐私政策 | `https://github.com/luty4ng/readme-html/blob/main/PRIVACY.md` |
@@ -36,7 +36,7 @@ Google 对 Windows/macOS 的商店外安装有明确限制；开发者模式和�
 npm run package
 ```
 
-输出为 `dist/readme-html-v0.1.1.zip`、对应的 `.sha256` 校验文件，以及用于检查的同名解压目录。命令只收集明确列出的运行文件、PNG 图标和 MIT 许可证，核对 manifest 与 package 版本；已有同名输出时会停止，避免覆盖之前的候选包。需要重新打包时，先保留或明确移走原输出。
+输出为 `dist/readme-html-v0.1.2.zip`、对应的 `.sha256` 校验文件，以及用于检查的同名解压目录。命令只收集明确列出的运行文件、PNG 图标和 MIT 许可证，核对 manifest 与 package 版本；已有同名输出时会停止，避免覆盖之前的候选包。需要重新打包时，先保留或明确移走原输出。
 
 ZIP 根目录直接包含 `manifest.json`、后台及内容脚本、`viewer.html`、`viewer.js`、`icons/` 和 `LICENSE`。SVG 源稿、`node_modules`、测试文件和报告不会进入安装包。
 
@@ -46,9 +46,9 @@ ZIP 根目录直接包含 `manifest.json`、后台及内容脚本、`viewer.html
 
 ## GitHub Release 分发
 
-[v0.1.1 开发预览版](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1) 已附带 `readme-html-v0.1.1.zip` 和 `readme-html-v0.1.1.zip.sha256`。在 **Assets** 中下载具名插件 ZIP；GitHub 自动生成的 **Source code** 压缩包是完整源码，不能作为同一个安装目录直接加载。
+[v0.1.2 开发预览版](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2) 发布时应附带 `readme-html-v0.1.2.zip` 和 `readme-html-v0.1.2.zip.sha256`。在 **Assets** 中下载具名插件 ZIP；GitHub 自动生成的 **Source code** 压缩包是完整源码，不能作为同一个安装目录直接加载。
 
-当前版本标记为 **Pre-release**，使用上面的固定版本入口或 [Releases 列表](https://github.com/luty4ng/readme-html/releases)，不要依赖只指向正式发行版的 `/releases/latest`。后续发布时，将测试通过的 ZIP 和校验文件附加到对应版本，并同步更新中英文 README 的下载链接和 AI 安装提示词版本。
+开发预览版发布时标记为 **Pre-release**，使用上面的固定版本入口或 [Releases 列表](https://github.com/luty4ng/readme-html/releases)，不要依赖只指向正式发行版的 `/releases/latest`。后续发布时，将测试通过的 ZIP 和校验文件附加到对应版本，并同步更新中英文 README 的下载链接和 AI 安装提示词版本。
 
 README 的提示词适用于可执行本地命令的 AI 助手：下载 → SHA-256 校验 → 解压到长期目录 → 加载到 Chrome → 验证公开演示。浏览器工具无法控制 `chrome://extensions` 时，应给出解压目录的绝对路径并引导用户点击完成，再确认结果。普通网页或仅能控制网页的工具无法保证自动完成 Chrome 扩展安装。
 
@@ -83,18 +83,18 @@ Chrome 商店也上传 ZIP，而不是自己生成的 CRX；商店要求 `manife
 
 名称：`README HTML`。
 
-英文简介（与当前 manifest 一致，87 字符；打包简介需通过 manifest 修改）：
+英文简介（与当前 manifest 一致）：
 
 ```text
-Show same-repository HTML documents inline in GitHub READMEs with a #html-preview link.
+Preview static HTML on GitHub file pages and inline in READMEs with a #html-preview link.
 ```
 
 英文详细说明：
 
 ```text
-Read HTML documents directly inside GitHub READMEs.
+Preview static HTML directly on GitHub.
 
-README HTML displays a static document below a marked link in a public GitHub repository. Keep reports, diagrams, and project overviews alongside your code, with no separate website to deploy.
+README HTML displays static documents below marked README links and automatically above the source on HTML file pages in public GitHub repositories. Keep reports, diagrams, and project overviews alongside your code, with no separate website to deploy.
 
 How it works
 1. Save a self-contained HTML file in your public repository.
@@ -129,14 +129,15 @@ No account, login, API key, or paid subscription is required.
 4. A preview should appear below that link. It contains an English-language project overview, SVG/CSS charts, and sample metrics labeled Mock data.
 5. Use the document's table of contents, expand an FAQ, collapse/reopen the preview, and drag its lower edge to resize it.
 6. Repeat on https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md under the Chinese demo section. Its separate demo/project-overview.html document contains the matching Chinese overview, charts, and FAQ.
-The extension has no toolbar popup. Its only purpose is inline static HTML previews in marked GitHub READMEs.
+7. Open https://github.com/luty4ng/readme-html/blob/main/demo/project-overview.html without a marker. Confirm a preview appears above the original source; test Source, Collapse/Expand, and the FAQ.
+The extension has no toolbar popup. Its single purpose is static HTML document previews on GitHub.
 ```
 
 ## 本项目可采用的审核说明
 
-单一用途：在 GitHub README 中，就地展示同一公开仓库中由 `#html-preview` 链接引用的静态 HTML 文档。
+单一用途：在 GitHub 上预览同一公开仓库的静态 HTML 文档，包括 README 标记链接下方和 HTML 文件页源码上方的预览。
 
-GitHub 页面访问：识别当前仓库和 Markdown 中的标记链接，并在该位置插入预览控件。
+GitHub 页面访问：识别当前仓库、README 标记链接和 HTML 文件页源码区域，在对应位置插入预览控件；文件页请求仅绑定浏览器报告的当前文件地址。
 
 Raw 主机访问：读取经过校验的同仓库公开 HTML。请求不携带 cookie 或认证凭据，不用于读取私有仓库。
 
@@ -146,10 +147,10 @@ Raw 主机访问：读取经过校验的同仓库公开 HTML。请求不携带 c
 
 ```text
 Single purpose:
-Display same-repository static HTML documents inline below marked links in public GitHub READMEs.
+Preview same-repository static HTML documents below marked README links and above the source on public GitHub HTML file pages.
 
 GitHub page access:
-Identify the current public repository and #html-preview links in its README, then insert preview controls below those links.
+Identify the current repository, marked README links, and HTML file-page source containers to insert preview controls. File-page fetches are bound to the current HTML URL reported by the browser.
 
 raw.githubusercontent.com host permission:
 Fetch the validated public HTML file from the same repository. Requests omit cookies and authentication credentials. The extension does not access private repositories.

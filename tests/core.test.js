@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 import "../extension/core.js";
 
-const { resolveTarget, repository, fetchHtml, MAX_BYTES } = globalThis.ReadmeHtml;
+const { resolveTarget, resolveFileTarget, repository, fetchHtml, MAX_BYTES } = globalThis.ReadmeHtml;
 const page = "https://github.com/luty/example";
 const link = "https://github.com/luty/example/blob/main/docs/report.html#html-preview";
 
@@ -27,6 +27,22 @@ test("previews run on repository/tree/README views, not issues or other websites
   assert.deepEqual(repository(`${page}/blob/main/docs/README.md`), ["luty", "example"]);
   for (const url of [`${page}/issues/1`, `${page}/pull/1`, `${page}/settings`, "https://example.com/luty/example"]) {
     assert.equal(repository(url), null);
+  }
+});
+
+test("HTML file pages resolve their own file without a marker, preserving refs and Unicode", () => {
+  const expected = resolveTarget(link, page);
+  for (const suffix of ["", "#html-preview", "#L20"]) {
+    assert.deepEqual(resolveFileTarget(expected.sourceUrl + suffix), expected);
+  }
+  assert.equal(resolveFileTarget(link.replace("main/", "feature/docs/")).rawUrl,
+    "https://raw.githubusercontent.com/luty/example/feature/docs/docs/report.html");
+  assert.equal(resolveFileTarget(link.replace("report.html", "%E6%8A%A5%E5%91%8A.HTM")).filename, "报告.HTM");
+  for (const url of [page, `${page}/blob/main/README.md`, link.replace("/blob/", "/edit/"),
+    link.replace("https:", "http:"), link.replace("github.com", "evil.test"),
+    link.replace("github.com", "user:secret@github.com"), link.replace("report.html", "..%2freport.html"),
+    link.replace("report.html", "%00report.html"), link.replace("#html-preview", "?token=example")]) {
+    assert.throws(() => resolveFileTarget(url), undefined, url);
   }
 });
 
@@ -95,7 +111,7 @@ test("service worker validates actual sender before performing privileged networ
   let handler;
   let requests = 0;
   const context = vm.createContext({
-    ReadmeHtml: { resolveTarget, fetchHtml: async () => { requests++; return "<h1>OK</h1>"; } },
+    ReadmeHtml: { resolveTarget, resolveFileTarget, fetchHtml: async () => { requests++; return "<h1>OK</h1>"; } },
     importScripts() {},
     chrome: { runtime: { id: "extension-id", onMessage: { addListener(fn) { handler = fn; } } } }
   });
@@ -109,6 +125,30 @@ test("service worker validates actual sender before performing privileged networ
   assert.equal(requests, 0);
   assert.equal((await send(link, sender)).ok, true);
   assert.equal(requests, 1);
+});
+
+test("file-page requests can only fetch the browser-reported current HTML file", async () => {
+  let handler;
+  const fetched = [];
+  const context = vm.createContext({
+    ReadmeHtml: { resolveTarget, resolveFileTarget, fetchHtml: async (target) => { fetched.push(target.rawUrl); return "<h1>OK</h1>"; } },
+    importScripts() {},
+    chrome: { runtime: { id: "extension-id", onMessage: { addListener(fn) { handler = fn; } } } }
+  });
+  vm.runInContext(await readFile(new URL("../extension/background.js", import.meta.url), "utf8"), context);
+  const sender = { id: "extension-id", frameId: 0, tab: { id: 1 }, url: link };
+  const send = (from) => new Promise(resolve => handler({ type: "readme-html:fetch-file", href: "https://evil.test/ignored" }, from, resolve));
+  for (const from of [{}, { ...sender, frameId: 1 }, { ...sender, id: "other" },
+    { ...sender, url: page }, { ...sender, url: `${page}/issues/1` }, { ...sender, url: "https://evil.test/file.html" }]) {
+    assert.equal((await send(from)).ok, false);
+  }
+  assert.deepEqual(fetched, []);
+  assert.equal((await send(sender)).ok, true);
+  assert.deepEqual(fetched, ["https://raw.githubusercontent.com/luty/example/main/docs/report.html"]);
+  assert.equal((await send({ ...sender, tab: { id: 1, url: link.replace("report.html", "next.html") } })).ok, true);
+  assert.equal(fetched.at(-1), "https://raw.githubusercontent.com/luty/example/main/docs/next.html");
+  assert.equal((await send({ ...sender, tab: { id: 1, url: `${page}/issues/1` } })).ok, false);
+  assert.equal((await send({ ...sender, url: "https://evil.test/", tab: { id: 1, url: link } })).ok, false);
 });
 
 test("all extension entry points exist and permissions stay limited to GitHub", async () => {

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "README HTML",
-  "version": "0.1.1",
-  "description": "Show same-repository HTML documents inline in GitHub READMEs with a #html-preview link.",
+  "version": "0.1.2",
+  "description": "Preview static HTML on GitHub file pages and inline in READMEs with a #html-preview link.",
   "minimum_chrome_version": "120",
   "icons": {
     "16": "icons/icon-16.png",

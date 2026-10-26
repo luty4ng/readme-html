@@ -13,7 +13,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-Browser checks load the real unpacked extension in a temporary Chromium profile. Deterministic GitHub/Raw fixtures exercise the end-to-end path under a restrictive GitHub-like CSP, plus HTML/CSS/SVG, native FAQ and fragment navigation, 375px layout, collapse/expand, errors/retry, dynamic navigation, and content isolation. Results and screenshots are written to the ignored `test-results/` directory.
+Browser checks load the real unpacked extension in a temporary Chromium profile. Deterministic GitHub/Raw fixtures exercise the end-to-end path under a restrictive GitHub-like CSP, plus HTML/CSS/SVG, native FAQ and fragment navigation, 375px layout, collapse/expand, errors/retry, dynamic navigation, direct HTML file pages, and content isolation. Results and screenshots are written to the ignored `test-results/` directory.
 
 To use an existing compatible Chromium executable, set `RHP_CHROMIUM_EXECUTABLE` to its full path.
 
@@ -29,7 +29,7 @@ To verify an extracted installation ZIP instead of the source directory, set `RH
 npm run test:browser -- --published
 ```
 
-This opens the real `luty4ng/readme-html` repository and verifies its committed README marker and Raw HTML, without inserting a marker or mocking the live responses. It makes network requests but does not modify the remote repository.
+This opens the real `luty4ng/readme-html` repository and verifies its committed README marker and Raw HTML, without inserting a marker or mocking the live responses. It also verifies both real HTML file pages, with and without a marker. It makes network requests but does not modify the remote repository.
 
 ```sh
 npm run test:browser -- --live
@@ -39,8 +39,10 @@ The alternate MDN smoke check adds a marker only to the local browser DOM of a p
 
 ## Isolation and permissions
 
-`content.js` identifies a marked link → `background.js` validates the actual sender and same-repository target → `core.js` fetches the public Raw file → `viewer.js` removes active content and creates a sandboxed document.
+`content.js` identifies a marked README link or an HTML file page → `background.js` validates the actual sender and same-repository target → `core.js` fetches the public Raw file → `viewer.js` removes active content and creates a sandboxed document.
 
+- File-page requests use a separate message type and resolve only the browser-reported current file; a message cannot supply an alternate fetch URL. Previews mount above the existing source section and are removed/replaced during navigation.
+- The worker uses the browser-reported current tab URL for top-frame requests, falling back to the sender URL when unavailable. The sender URL can retain the original document address across GitHub SPA navigation; both the sender origin and resolved current-page target are validated.
 - Content scripts run only on `https://github.com/*`.
 - The background host permission is limited to `https://raw.githubusercontent.com/*`.
 - Requests omit credentials, reject redirects, enforce the 1 MiB limit during streaming, and time out after 15 seconds.

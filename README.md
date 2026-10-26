@@ -6,13 +6,13 @@
 
 **Your HTML documents. Right inside GitHub.**
 
-A free, open-source Chrome extension for static HTML previews in GitHub READMEs.
+A free, open-source Chrome extension for static HTML previews on GitHub.
 
-[![Version](https://img.shields.io/badge/version-0.1.1-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1)
+[![Version](https://img.shields.io/badge/version-0.1.2-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2)
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT license](https://img.shields.io/badge/license-MIT-34d399)](./LICENSE)
 
-**[Download](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · [Quick start](#quick-start) · [Live demo](#live-demo) · [FAQ](#frequently-asked-questions) · [Issues](https://github.com/luty4ng/readme-html/issues)
+**[Download](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)** · [Quick start](#quick-start) · [Live demo](#live-demo) · [FAQ](#frequently-asked-questions) · [Issues](https://github.com/luty4ng/readme-html/issues)
 
 **English** · [简体中文](./docs/zh-CN/README.md)
 
@@ -22,7 +22,7 @@ A free, open-source Chrome extension for static HTML previews in GitHub READMEs.
 
 </div>
 
-Add a link ending in `#html-preview` to render an HTML file from the same public repository below it. Each reader needs the extension installed. No account, build step, or separate hosting is required.
+Add a link ending in `#html-preview` to render an HTML file from the same public repository below it. Or open a repository’s `.html` / `.htm` file page to preview it automatically, with no marker required. Each reader needs the extension installed. No account, build step, or separate hosting is required.
 
 > [!NOTE]
 > **Developer preview · Chrome 120+.** Install through Developer mode while Chrome Web Store review is pending.
@@ -33,14 +33,14 @@ Add a link ending in `#html-preview` to render an HTML file from the same public
 
 ```text
 Help me install README HTML in desktop Chrome 120+:
-1. From https://github.com/luty4ng/readme-html/releases/tag/v0.1.1 download readme-html-v0.1.1.zip and readme-html-v0.1.1.zip.sha256. Verify the ZIP's SHA-256; stop on mismatch.
-2. Extract to a permanent, versioned folder without overwriting an existing installation. Confirm manifest.json is at its root, with name README HTML and version 0.1.1. No build or npm install is needed.
+1. From https://github.com/luty4ng/readme-html/releases/tag/v0.1.2 download readme-html-v0.1.2.zip and readme-html-v0.1.2.zip.sha256. Verify the ZIP's SHA-256; stop on mismatch.
+2. Extract to a permanent, versioned folder without overwriting an existing installation. Confirm manifest.json is at its root, with name README HTML and version 0.1.2. No build or npm install is needed.
 3. Open chrome://extensions and help me enable Developer mode → Load unpacked → select that folder. If you cannot operate the page, give me the absolute path and guide the clicks. Verify loading or wait for my confirmation before claiming installation is complete.
 4. Open https://github.com/luty4ng/readme-html and refresh. Verify the inline preview under “Live demo”; ask me to confirm if you cannot inspect it.
 Keep the folder in place. Explain manual updates. Do not change browser security policies or modify my repositories. Clearly report unverified steps.
 ```
 
-**Install manually:** Download the [ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip) ([SHA-256](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256)), extract it, then open `chrome://extensions` → **Developer mode** → **Load unpacked** → select the folder containing `manifest.json`. Keep that folder and refresh GitHub.
+**Install manually:** Download the [ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip) ([SHA-256](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip.sha256)), extract it, then open `chrome://extensions` → **Developer mode** → **Load unpacked** → select the folder containing `manifest.json`. Keep that folder and refresh GitHub.
 
 <details>
 <summary>Install from source or update</summary>
@@ -55,7 +55,7 @@ With the extension enabled, the English document appears below this link:
 
 [Open the visual project overview](./demo/project-overview.en.html#html-preview)
 
-Try the contents links, FAQ, collapse, and resize controls. The SVG and CSS charts use labeled mock data. Without the extension, the ordinary file link remains. [All demos →](./demo/README.md)
+Try the contents links, FAQ, collapse, and resize controls. The SVG and CSS charts use labeled mock data. Without the extension, the ordinary file link remains. [Open the HTML file directly](./demo/project-overview.en.html) · [All demos →](./demo/README.md)
 
 ## Embed your own document
 
@@ -69,7 +69,7 @@ Paths are relative to the README. Use inline CSS and static SVG or CSS charts, w
 
 ## Compatibility
 
-- **Public `github.com` repositories:** same-repository `.html` / `.htm`, UTF-8, ≤ 1 MiB, 15-second fetch timeout. Supports repository READMEs and standalone `README.md` / `README.markdown` pages.
+- **Public `github.com` repositories:** same-repository `.html` / `.htm`, UTF-8, ≤ 1 MiB, 15-second fetch timeout. Supports HTML file pages, repository READMEs, and standalone `README.md` / `README.markdown` pages. Source stays available below file-page previews.
 - **Static documents:** inline CSS, SVG, permitted base64 raster images, data fonts, and native `<details>`. Multiple previews, resize, retry, and collapse; long documents scroll internally.
 - **Not supported:** JavaScript, external or relative assets, private repositories, Enterprise, GitLab, Issues/PRs, and cross-repository previews. For translated READMEs, use language folders such as `docs/zh-CN/README.md`.
 
@@ -89,7 +89,7 @@ No. Documents render in a sandbox; use self-contained static HTML. See [compatib
 
 ### Does it support private repositories?
 
-No. Version 0.1.1 reads public files from the same repository on `github.com` only.
+No. Version 0.1.2 reads public files from the same repository on `github.com` only.
 
 ### Is it free, and does it collect data?
 

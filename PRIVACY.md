@@ -1,12 +1,12 @@
 # Privacy policy
 
-Effective date: October 26, 2026. This policy describes README HTML v0.1.1.
+Effective date: October 26, 2026. This policy describes README HTML v0.1.2.
 
-README HTML has one purpose: display marked HTML documents from the current public GitHub repository inside its README.
+README HTML has one purpose: preview static HTML documents from the current public GitHub repository, inline in READMEs or above the source on HTML file pages.
 
 ## What the extension reads
 
-On `https://github.com/*`, the content script reads the current repository URL and links in the rendered Markdown to find HTML links ending in `#html-preview`. The background worker validates that the requested file belongs to that repository, then requests it from `https://raw.githubusercontent.com/*`.
+On `https://github.com/*`, the content script reads the current repository URL and links in the rendered Markdown to find HTML links ending in `#html-preview`. On a repository HTML file page, it also identifies the source container and automatically previews the current file without requiring a marker. The background worker validates that a README link belongs to that repository, or binds a file-page request to the browser-reported current HTML file URL, then requests it from `https://raw.githubusercontent.com/*`.
 
 The extension processes the file's HTML in browser memory. It does not send the README, HTML content, or browsing activity to the project's maintainer, an analytics provider, or a separate rendering service.
 
@@ -24,7 +24,7 @@ The maintainer does not receive, sell, or share extension browsing data. GitHub 
 
 ## Your choices
 
-Disable the extension for GitHub, remove a preview marker from your README, or uninstall the extension to stop this functionality. Closing the page ends the document's in-memory preview session.
+Disable the extension for GitHub, or uninstall it to stop previews. Removing a README marker stops that embedded preview; HTML file pages still preview automatically while the extension is enabled. Closing the page ends the document's in-memory preview session.
 
 ## Support
 

@@ -45,6 +45,7 @@ const os = require("node:os");
     const blocked = [];
     const outbound = [];
     let missingRecovered = false;
+    let filePageRecovered = false;
     context.on("request", (request) => {
       if (/attacker\.invalid/.test(request.url())) unexpected.push(request.url());
     });
@@ -61,6 +62,7 @@ const os = require("node:os");
       if (url.endsWith("/project-overview.en.html")) return route.fulfill({ status: 200, contentType: "text/plain; charset=utf-8", body: overviewEnglish });
       if (url.endsWith("/project-overview.html")) return route.fulfill({ status: 200, contentType: "text/plain; charset=utf-8", body: overview });
       if (url.endsWith("/missing.html") && !missingRecovered) return route.fulfill({ status: 404, body: "Not found" });
+      if (url.endsWith("/file-missing.html") && !filePageRecovered) return route.fulfill({ status: 404, body: "Not found" });
       if (url.endsWith("/empty.html")) return route.fulfill({ status: 200, body: "  " });
       if (url.endsWith("/unsafe.html")) return route.fulfill({ status: 200, body: `<!doctype html>
         <meta http-equiv="refresh" content="0;url=https://attacker.invalid/refresh">
@@ -84,8 +86,11 @@ const os = require("node:os");
       <p>A same-repository HTML document, embedded where you put its Markdown link.</p>${links}
       <p id="after">This paragraph stays below the preview.</p></article></main></body></html>`;
     await context.route("https://github.com/readme-html/**", async (route) => {
+      const filePage = /\/blob\/.*\.html?(?:[?#]|$)/i.test(route.request().url());
+      const sourceFixture = fixture().replace(/<article[\s\S]*<\/article>/,
+        '<section id="file-source"><h1>GitHub file source</h1><textarea id="read-only-cursor-text-area" aria-label="file content" readonly>&lt;!doctype html&gt;</textarea></section>');
       // A deliberately restrictive GitHub-like CSP: the extension must not weaken it.
-      await route.fulfill({ contentType: "text/html", body: fixture(), headers: {
+      await route.fulfill({ contentType: "text/html", body: filePage ? sourceFixture : fixture(), headers: {
         "Content-Security-Policy": "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; frame-src 'self'; img-src 'self'; connect-src 'self'"
       } });
     });
@@ -234,6 +239,62 @@ const os = require("node:os");
     assert.deepEqual(pageErrors, []);
     pass("leaving and returning to README clears and restores previews across two cycles");
 
+    await page.goto(`${base}/blob/main/demo/project-overview.en.html`, { waitUntil: "networkidle" });
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+    assert.equal(await host.count(), 1);
+    assert.match(await documentFrame().locator("h1").innerText(), /Right inside your README/);
+    assert.equal(await page.locator("#read-only-cursor-text-area").count(), 1);
+    await host.getByRole("link", { name: "Source", exact: true }).click();
+    assert.equal(await page.locator("#file-source").isVisible(), true);
+    await host.getByRole("button", { name: "Collapse", exact: true }).click();
+    assert.equal(await host.locator("#preview-body").isVisible(), false);
+    await host.getByRole("button", { name: "Expand", exact: true }).click();
+    await page.setViewportSize({ width: 375, height: 812 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    assert.equal(await documentFrame().evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    await host.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: path.join(results, "file-page-mobile.png") });
+    await page.setViewportSize({ width: 1280, height: 950 });
+    pass("direct HTML file page: no marker, preview above intact source, source control, collapse and 375px layout");
+
+    const initialFileRequests = rawRequests.length;
+    await page.evaluate(() => document.dispatchEvent(new Event("turbo:load")));
+    await page.waitForTimeout(300);
+    assert.equal(await host.count(), 1);
+    assert.equal(rawRequests.length, initialFileRequests);
+    await page.evaluate(url => {
+      history.pushState({}, "", `${url}/blob/main/demo/project-overview.html#html-preview`);
+      document.dispatchEvent(new Event("turbo:load"));
+    }, base);
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".filename")?.textContent === "project-overview.html" &&
+      document.querySelector("[data-readme-html-file]").shadowRoot.querySelector(".viewport:not([hidden])"));
+    assert.match(await documentFrame().locator("h1").innerText(), /直接读懂 HTML/);
+    await page.evaluate(() => document.querySelector("#file-source").replaceWith(document.querySelector("#file-source").cloneNode(true)));
+    await page.waitForTimeout(300);
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+    assert.equal(await host.count(), 1);
+    for (let cycle = 0; cycle < 2; cycle++) {
+      await page.evaluate(url => { history.pushState({}, "", `${url}/blob/main/example.txt`); document.dispatchEvent(new Event("turbo:load")); }, base);
+      await page.waitForFunction(() => !document.querySelector("[data-readme-html]"));
+      await page.evaluate(url => { history.pushState({}, "", `${url}/blob/main/demo/project-overview.html#L2`); document.dispatchEvent(new Event("turbo:load")); }, base);
+      await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+    }
+    pass("file-page navigation: replaces previews, handles source replacement, avoids duplicate fetches and clears on non-HTML pages");
+
+    await page.goto(`${base}/blob/main/file-missing.html`);
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".error"));
+    assert.match(await host.locator(".status").innerText(), /File not found/);
+    filePageRecovered = true;
+    await host.getByRole("button", { name: "Retry", exact: true }).click();
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+    await page.goto(`${base}/blob/main/unsafe.html`);
+    await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"));
+    assert.equal(await documentFrame().locator("script,iframe,base,link,form[action]").count(), 0);
+    assert.equal(await documentFrame().evaluate(() => location.origin), "null");
+    assert.deepEqual(outbound, []);
+    assert.deepEqual(pageErrors, []);
+    pass("file-page errors recover with Retry and untrusted HTML retains the opaque sandbox and blocked resources");
+
     if (process.argv.includes("--live")) {
       await context.unrouteAll();
       const liveRepository = "https://github.com/mdn/beginner-html-site-styled";
@@ -292,9 +353,35 @@ const os = require("node:os");
         await page.locator("[data-readme-html]").first().screenshot({ path: path.join(results, `published-preview-${edition.file}.png`) });
         pass(`published luty4ng/readme-html (${edition.file}): genuine README marker and Raw HTML, working FAQ, no DOM injection or mocked responses`);
       }
+      for (const file of ["project-overview.en.html", "project-overview.html"]) {
+        await page.goto(`https://github.com/luty4ng/readme-html/blob/main/demo/${file}${file.endsWith(".en.html") ? "" : "#html-preview"}`, { waitUntil: "networkidle", timeout: 30000 });
+        const directHost = page.locator("[data-readme-html-file]");
+        await page.waitForFunction(() => document.querySelector("[data-readme-html-file]")?.shadowRoot.querySelector(".viewport:not([hidden])"), null, { timeout: 25000 });
+        assert.equal(await directHost.count(), 1);
+        assert.equal(await page.locator("#read-only-cursor-text-area").count(), 1);
+        await documentFrame().waitForSelector("#faq");
+        await directHost.scrollIntoViewIfNeeded();
+        await documentFrame().getByRole("link", { name: file.endsWith(".en.html") ? "FAQ" : "常见问题", exact: true }).click();
+        await documentFrame().locator("summary").first().click();
+        assert.equal(await documentFrame().locator("details").first().getAttribute("open"), "");
+        await documentFrame().evaluate(() => scrollTo(0,0));
+        await directHost.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(250);
+        await page.screenshot({ path: path.join(results, `published-file-${file}.png`) });
+        pass(`real GitHub HTML file page (${file}): automatic preview, original source and working FAQ`);
+      }
     }
     await fs.writeFile(path.join(results, "browser-results.json"), JSON.stringify({ checks, rawRequests, blocked, outbound, pageErrors }, null, 2));
     console.log(`\n${checks.length} browser checks passed. Screenshots: ${results}`);
+  } catch (error) {
+    console.error("Preview diagnostics:", JSON.stringify(await context.pages().at(-1)?.evaluate(() => ({
+      path: location.pathname,
+      previews: [...document.querySelectorAll("[data-readme-html]")].map(node => ({
+        file: node.shadowRoot.querySelector(".filename")?.textContent,
+        status: node.shadowRoot.querySelector(".status")?.textContent
+      }))
+    })).catch(() => null)));
+    throw error;
   } finally {
     await context.close();
     if (path.dirname(path.resolve(profile)) === path.resolve(os.tmpdir()) &&

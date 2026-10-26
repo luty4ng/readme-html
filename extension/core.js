@@ -40,11 +40,25 @@
     if (parts[2] !== "blob" || parts.length < 5 || !/\.html?$/i.test(parts.at(-1)) || url.search) {
       throw new Error("Link to a repository .html or .htm file, without query parameters.");
     }
+    return fileTarget(url, parts);
+  }
+
+  function fileTarget(url, parts) {
     url.hash = "";
     const rawUrl = new URL("https://raw.githubusercontent.com");
     // Keep the rendered GitHub ref/path intact; do not guess where a ref containing '/' ends.
     rawUrl.pathname = url.pathname.replace(/^\/([^/]+)\/([^/]+)\/blob\//, "/$1/$2/");
     return { sourceUrl: url.href, rawUrl: rawUrl.href, filename: parts.at(-1) };
+  }
+
+  function resolveFileTarget(pageUrl) {
+    const url = new URL(pageUrl);
+    const parts = pathParts(url);
+    if (url.origin !== "https://github.com" || url.username || url.password || url.search ||
+        parts[2] !== "blob" || parts.length < 5 || !/\.html?$/i.test(parts.at(-1))) {
+      throw new Error("Open a public GitHub .html or .htm file to preview it.");
+    }
+    return fileTarget(url, parts);
   }
 
   async function fetchHtml(target, fetcher = fetch) {
@@ -88,5 +102,5 @@
     return html;
   }
 
-  globalThis.ReadmeHtml = Object.freeze({ MARKER, MAX_BYTES, repository, resolveTarget, fetchHtml });
+  globalThis.ReadmeHtml = Object.freeze({ MARKER, MAX_BYTES, repository, resolveTarget, resolveFileTarget, fetchHtml });
 })();

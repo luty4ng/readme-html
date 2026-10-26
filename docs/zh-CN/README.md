@@ -6,13 +6,13 @@
 
 **让 HTML 文档，直接出现在 GitHub README 里。**
 
-免费开源的 Chrome 插件，在 GitHub README 内预览静态 HTML 文档。
+免费开源的 Chrome 插件，在 GitHub README 和 HTML 文件页预览静态文档。
 
-[![版本](https://img.shields.io/badge/version-0.1.1-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1)
+[![版本](https://img.shields.io/badge/version-0.1.2-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2)
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT 许可证](https://img.shields.io/badge/license-MIT-34d399)](../../LICENSE)
 
-**[下载插件](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)** · [快速开始](#快速开始) · [在线演示](#在线演示) · [使用问答](#使用问答) · [反馈问题](https://github.com/luty4ng/readme-html/issues)
+**[下载插件](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)** · [快速开始](#快速开始) · [在线演示](#在线演示) · [使用问答](#使用问答) · [反馈问题](https://github.com/luty4ng/readme-html/issues)
 
 [English](../../README.md) · **简体中文**
 
@@ -22,7 +22,7 @@
 
 </div>
 
-在链接末尾添加 `#html-preview`，即可在下方渲染同一公开仓库的 HTML 文件。每位读者都需要安装插件，无需账号、构建或额外托管。
+在链接末尾添加 `#html-preview`，即可在下方渲染同一公开仓库的 HTML 文件。也可直接打开仓库的 `.html` / `.htm` 文件页，自动显示预览，无需标记。每位读者都需要安装插件，无需账号、构建或额外托管。
 
 > [!NOTE]
 > **开发预览版 · Chrome 120+。** Chrome 应用商店审核期间，通过开发者模式安装。
@@ -33,14 +33,14 @@
 
 ```text
 请帮我在桌面版 Chrome 120+ 安装 README HTML：
-1. 从 https://github.com/luty4ng/readme-html/releases/tag/v0.1.1 下载 readme-html-v0.1.1.zip 和 readme-html-v0.1.1.zip.sha256，比对 ZIP 的 SHA-256，不一致时停止。
-2. 解压到长期保留、带版本号的文件夹，不覆盖现有安装。确认根目录有 manifest.json，名称为 README HTML，版本为 0.1.1。无需构建或 npm install。
+1. 从 https://github.com/luty4ng/readme-html/releases/tag/v0.1.2 下载 readme-html-v0.1.2.zip 和 readme-html-v0.1.2.zip.sha256，比对 ZIP 的 SHA-256，不一致时停止。
+2. 解压到长期保留、带版本号的文件夹，不覆盖现有安装。确认根目录有 manifest.json，名称为 README HTML，版本为 0.1.2。无需构建或 npm install。
 3. 打开 chrome://extensions，引导我开启开发者模式 → 加载已解压的扩展程序 → 选择该文件夹。无法操作页面时，给出绝对路径和点击步骤；验证加载成功或等我确认后，才能宣告安装完成。
 4. 打开 https://github.com/luty4ng/readme-html/blob/main/docs/zh-CN/README.md 并刷新，验证“在线演示”下的行内预览；无法查看时让我确认。
 保留安装文件夹，说明需要手动更新。不要更改浏览器安全策略或修改我的仓库，明确说明尚未验证的步骤。
 ```
 
-**手动安装：** 下载 [ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)（[SHA-256](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256)）并解压，打开 `chrome://extensions` → **开发者模式** → **加载已解压的扩展程序** → 选择包含 `manifest.json` 的文件夹。保留该文件夹，然后刷新 GitHub。
+**手动安装：** 下载 [ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)（[SHA-256](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip.sha256)）并解压，打开 `chrome://extensions` → **开发者模式** → **加载已解压的扩展程序** → 选择包含 `manifest.json` 的文件夹。保留该文件夹，然后刷新 GitHub。
 
 <details>
 <summary>从源码安装或更新</summary>
@@ -55,7 +55,7 @@
 
 [打开可视化项目说明](../../demo/project-overview.html#html-preview)
 
-可以点击目录、展开问答、收起预览或拖动底边调整高度。SVG 和 CSS 图表均使用标明的模拟数据。未安装插件时保留普通文件链接。[全部演示 →](../../demo/README.md)
+可以点击目录、展开问答、收起预览或拖动底边调整高度。SVG 和 CSS 图表均使用标明的模拟数据。未安装插件时保留普通文件链接。[直接打开 HTML 文件](../../demo/project-overview.html) · [全部演示 →](../../demo/README.md)
 
 ## 嵌入自己的文档
 
@@ -69,7 +69,7 @@
 
 ## 兼容性
 
-- **仅 github.com 公开仓库：** 同仓库 `.html` / `.htm`，UTF-8，≤ 1 MiB，请求超时 15 秒。支持仓库 README 和独立的 `README.md` / `README.markdown` 页面。
+- **仅 github.com 公开仓库：** 同仓库 `.html` / `.htm`，UTF-8，≤ 1 MiB，请求超时 15 秒。支持 HTML 文件页、仓库 README 和独立的 `README.md` / `README.markdown` 页面；文件页源码保留在预览下方。
 - **静态文档：** 内嵌 CSS、SVG、允许的 Base64 位图、data 字体及原生 `<details>`。支持多个预览、调整高度、重试和收起，长文档在内部滚动。
 - **暂不支持：** JavaScript、外部或相对路径资源、私有仓库、Enterprise、GitLab、Issue/PR 及跨仓库预览。多语言 README 使用 `docs/zh-CN/README.md` 这样的语言目录。
 
@@ -89,7 +89,7 @@ GitHub Markdown 接受部分 HTML，但会[清理脚本和内嵌样式](https://
 
 ### 支持私有仓库吗？
 
-不支持。v0.1.1 仅读取 `github.com` 同一公开仓库的文件。
+不支持。v0.1.2 仅读取 `github.com` 同一公开仓库的文件。
 
 ### 免费吗，会收集数据吗？
 
