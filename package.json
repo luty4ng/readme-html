@@ -8,10 +8,17 @@
   "scripts": {
     "icons": "node scripts/generate-icons.cjs",
     "package": "node scripts/package.cjs",
-    "test": "node --test tests/core.test.js",
+    "package:verify": "node scripts/verify-package.cjs",
+    "version:release": "node scripts/version.cjs",
+    "check": "node scripts/check-project.cjs",
+    "lint:commits": "commitlint",
+    "setup:hooks": "git config --local core.hooksPath .githooks",
+    "test": "node --test tests/*.test.js",
     "test:browser": "node tests/browser.cjs"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "playwright": "1.62.1"
   }
 }

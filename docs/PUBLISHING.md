@@ -46,9 +46,9 @@ ZIP 根目录直接包含 `manifest.json`、后台及内容脚本、`viewer.html
 
 ## GitHub Release 分发
 
-[v0.1.2 开发预览版](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2) 发布时应附带 `readme-html-v0.1.2.zip` 和 `readme-html-v0.1.2.zip.sha256`。在 **Assets** 中下载具名插件 ZIP；GitHub 自动生成的 **Source code** 压缩包是完整源码，不能作为同一个安装目录直接加载。
+[v0.1.2](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2) 已设为普通 Release 和 Latest，附带 `readme-html-v0.1.2.zip` 和 `readme-html-v0.1.2.zip.sha256`。在 **Assets** 中下载具名插件 ZIP；GitHub 自动生成的 **Source code** 压缩包是完整源码，不能作为同一个安装目录直接加载。
 
-开发预览版发布时标记为 **Pre-release**，使用上面的固定版本入口或 [Releases 列表](https://github.com/luty4ng/readme-html/releases)，不要依赖只指向正式发行版的 `/releases/latest`。后续发布时，将测试通过的 ZIP 和校验文件附加到对应版本，并同步更新中英文 README 的下载链接和 AI 安装提示词版本。
+后续按 [贡献与发版流程](../CONTRIBUTING.md#release) 操作：在分支提升版本并提 PR，检查通过后 Squash 合并到 `main`，再推送匹配的 `vX.Y.Z` 标签。Release 管线重新测试实际 ZIP，通过后自动附加安装包与 SHA-256，生成更新说明，并设为普通 Release 和 Latest。标签版本不一致、提交未进入 `main` 或测试失败时不会发布。已有版本不重新打包、不移动标签。
 
 README 的提示词适用于可执行本地命令的 AI 助手：下载 → SHA-256 校验 → 解压到长期目录 → 加载到 Chrome → 验证公开演示。浏览器工具无法控制 `chrome://extensions` 时，应给出解压目录的绝对路径并引导用户点击完成，再确认结果。普通网页或仅能控制网页的工具无法保证自动完成 Chrome 扩展安装。
 
