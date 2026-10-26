@@ -44,6 +44,14 @@ ZIP 根目录直接包含 `manifest.json`、后台及内容脚本、`viewer.html
 
 此 ZIP 可供用户解压后加载。它不提供双击安装或自动更新；试用者升级时需替换文件、重新加载插件并刷新 GitHub。将 ZIP 作为 GitHub Release 附件分发，可让用户不用下载完整源码。
 
+## GitHub Release 分发
+
+[v0.1.1 开发预览版](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1) 已附带 `readme-html-v0.1.1.zip` 和 `readme-html-v0.1.1.zip.sha256`。在 **Assets** 中下载具名插件 ZIP；GitHub 自动生成的 **Source code** 压缩包是完整源码，不能作为同一个安装目录直接加载。
+
+当前版本标记为 **Pre-release**，使用上面的固定版本入口或 [Releases 列表](https://github.com/luty4ng/readme-html/releases)，不要依赖只指向正式发行版的 `/releases/latest`。后续发布时，将测试通过的 ZIP 和校验文件附加到对应版本，并同步更新中英文 README 的下载链接和 AI 安装提示词版本。
+
+README 的提示词适用于可执行本地命令的 AI 助手：下载 → SHA-256 校验 → 解压到长期目录 → 加载到 Chrome → 验证公开演示。浏览器工具无法控制 `chrome://extensions` 时，应给出解压目录的绝对路径并引导用户点击完成，再确认结果。普通网页或仅能控制网页的工具无法保证自动完成 Chrome 扩展安装。
+
 Chrome 商店也上传 ZIP，而不是自己生成的 CRX；商店要求 `manifest.json` 位于 ZIP 根目录。参见 [官方打包要求](https://developer.chrome.com/docs/webstore/prepare)。
 
 ## 上架前还需准备

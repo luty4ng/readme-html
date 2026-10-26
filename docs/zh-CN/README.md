@@ -47,9 +47,27 @@ README 仍然是普通 Markdown。安装插件后，下面这样的链接会在�
 
 ## 快速开始
 
+**先让 AI 帮你安装。** 将下面这段提示词复制给能执行本地命令的 AI 助手，例如 Codex：
+
+```text
+请帮我在桌面版 Chrome 中安装 README HTML，并验证演示效果：
+1. 从 https://github.com/luty4ng/readme-html/releases/tag/v0.1.1 下载以下两个 Release 附件：
+   https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip
+   https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256
+2. 将 ZIP 的 SHA-256 与校验文件比对；不一致时停止安装。
+3. 解压到我的用户目录下长期保留、带版本号的文件夹，不覆盖现有安装。确认文件夹根目录直接包含 manifest.json，名称为 README HTML，版本为 0.1.1。无需构建、npm install、账号或 API Key。
+4. 帮我在 Chrome 120+ 打开 chrome://extensions。如果你的工具能操作这个页面，就开启开发者模式并加载该文件夹；否则给出文件夹的绝对路径和明确点击步骤：开发者模式 → 加载已解压的扩展程序 → 选择该文件夹。引导我完成这一步，等待我确认后再判断安装成功。
+5. 打开 https://github.com/luty4ng/readme-html/blob/main/demo/README.md，必要时刷新，确认 #html-preview 标记链接下方出现渲染后的 HTML 预览。如果无法查看我的浏览器，请让我确认效果，并明确说明尚未验证的步骤。
+保留安装文件夹，说明开发者模式安装需要手动更新。不要更改浏览器安全策略，也不要修改我的仓库。
+```
+
+AI 会准备文件并引导安装，能否操作浏览器取决于它的工具。Chrome 仍需加载解压后的文件夹。也可以按下面的步骤手动安装：
+
 **1 · 安装插件。**
 
 下载并解压 [v0.1.1 ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip)。打开 `chrome://extensions`，开启**开发者模式**，点击**加载已解压的扩展程序**，选择包含 `manifest.json` 的文件夹。
+
+ZIP 与 [SHA-256 校验文件](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256) 都在 [v0.1.1 开发预览版 Release](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1) 的 **Assets** 中。请选择具名插件 ZIP，不要选择 GitHub 自动生成的源码压缩包。使用插件期间，请保留解压后的文件夹。
 
 **2 · 打开演示。**
 

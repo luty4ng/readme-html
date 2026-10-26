@@ -47,9 +47,27 @@ The README stays ordinary Markdown. With the extension, this link adds a static 
 
 ## Quick start
 
+**Let your AI assistant help you install it.** Copy this prompt into a local AI coding assistant with terminal access, such as Codex:
+
+```text
+Help me install README HTML in desktop Chrome and verify its demo:
+1. Download these two release assets from https://github.com/luty4ng/readme-html/releases/tag/v0.1.1:
+   https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip
+   https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256
+2. Verify the ZIP's SHA-256 against the checksum file. Stop if it does not match.
+3. Extract to a permanent, versioned folder in my user directory without overwriting an existing installation. Confirm that manifest.json is at the folder root, with name README HTML and version 0.1.1. No build, npm install, account, or API key is needed.
+4. Help me open chrome://extensions in Chrome 120+. If your tools can operate this page, enable Developer mode and load that folder. Otherwise give me its absolute path and the exact clicks: Developer mode → Load unpacked → select that folder. Guide me through this step and wait for my confirmation before claiming installation is complete.
+5. Open https://github.com/luty4ng/readme-html/blob/main/demo/README.md and refresh it if needed. Verify that a rendered HTML preview appears below the #html-preview link. If you cannot inspect my browser, ask me to confirm this result; report any unverified steps clearly.
+Keep the installed folder in place. Explain that this developer-mode installation needs manual updates. Do not change browser security policies or modify my repositories.
+```
+
+The assistant prepares the files and guides installation; browser controls depend on its tools. Chrome still requires loading the unpacked folder. Prefer manual installation? Follow these steps:
+
 **1 · Install the extension.**
 
 Download and extract the [extension ZIP](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip). Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the folder containing `manifest.json`.
+
+The ZIP and its [SHA-256 checksum](https://github.com/luty4ng/readme-html/releases/download/v0.1.1/readme-html-v0.1.1.zip.sha256) are attached to the [v0.1.1 developer-preview release](https://github.com/luty4ng/readme-html/releases/tag/v0.1.1). Choose the named ZIP under **Assets**, rather than GitHub's automatic source archives. Keep the extracted folder in place while using the extension.
 
 **2 · Open the demo.**
 
