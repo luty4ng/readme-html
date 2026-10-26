@@ -11,6 +11,7 @@ A free, open-source Chrome extension for static HTML previews on GitHub.
 [![Version](https://img.shields.io/badge/version-0.1.2-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2)
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT license](https://img.shields.io/badge/license-MIT-34d399)](./LICENSE)
+[![CI](https://github.com/luty4ng/readme-html/actions/workflows/ci.yml/badge.svg)](https://github.com/luty4ng/readme-html/actions/workflows/ci.yml)
 
 **[Download](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)** · [Quick start](#quick-start) · [Live demo](#live-demo) · [FAQ](#frequently-asked-questions) · [Issues](https://github.com/luty4ng/readme-html/issues)
 

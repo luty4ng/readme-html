@@ -2,12 +2,16 @@
 
 The extension uses Manifest V3 and browser APIs directly. It has no runtime dependencies; Playwright is only used for testing. No build step is needed to load `extension/`.
 
+Use short-lived branches, Conventional Commits, and PRs into `main`; see [Contributing](../CONTRIBUTING.md) for commit hooks, required CI checks, and tag-based releases. Commitlint is a development-only dependency.
+
 ## Run checks
 
 Use Node 22+:
 
 ```sh
 npm ci
+npm run setup:hooks
+npm run check
 npm test
 npx playwright install chromium
 npm run test:browser
@@ -22,6 +26,8 @@ To verify an extracted installation ZIP instead of the source directory, set `RH
 ## Icons and packages
 
 `assets/icon.svg` is the original editable icon. Run `npm run icons` after installing the development Chromium runtime to regenerate the four PNG sizes in `extension/icons/`; no image library or runtime dependency is needed. `npm run package` creates a versioned ZIP, extracted candidate directory, and SHA-256 file under ignored `dist/` output. See [distribution instructions](./PUBLISHING.md).
+
+Run `npm run package:verify` to verify the checksum, exact runtime file list, and byte-for-byte source matches, and extract the ZIP to a fresh `dist/verified-*` directory. Load that returned directory via `RHP_EXTENSION_PATH` for browser acceptance. CI does this automatically. Set `RHP_PACKAGE_OUTPUT` to a separate output directory when preserving an existing candidate package.
 
 ## Live checks
 

@@ -10,7 +10,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"))
 if (manifest.version !== pkg.version) throw new Error("Manifest and package versions must match.");
 if (!/^\d+\.\d+\.\d+$/.test(manifest.version)) throw new Error("Unexpected release version.");
 const files = ["manifest.json", "core.js", "background.js", "content.js", "viewer.html", "viewer.js", ...Object.values(manifest.icons)];
-const output = path.join(root, "dist");
+const output = process.env.RHP_PACKAGE_OUTPUT ? path.resolve(process.env.RHP_PACKAGE_OUTPUT) : path.join(root, "dist");
 const staging = path.join(output, `readme-html-v${manifest.version}`);
 if (fs.existsSync(staging)) throw new Error(`Staging already exists: ${staging}. Preserve or remove that output explicitly before repackaging.`);
 fs.mkdirSync(staging, { recursive: true });

@@ -11,6 +11,7 @@
 [![版本](https://img.shields.io/badge/version-0.1.2-0969da)](https://github.com/luty4ng/readme-html/releases/tag/v0.1.2)
 ![Chrome 120+](https://img.shields.io/badge/Chrome-120%2B-4285F4)
 [![MIT 许可证](https://img.shields.io/badge/license-MIT-34d399)](../../LICENSE)
+[![CI](https://github.com/luty4ng/readme-html/actions/workflows/ci.yml/badge.svg)](https://github.com/luty4ng/readme-html/actions/workflows/ci.yml)
 
 **[下载插件](https://github.com/luty4ng/readme-html/releases/download/v0.1.2/readme-html-v0.1.2.zip)** · [快速开始](#快速开始) · [在线演示](#在线演示) · [使用问答](#使用问答) · [反馈问题](https://github.com/luty4ng/readme-html/issues)
 
