@@ -70,7 +70,7 @@ Paths are relative to the README. Use inline CSS and static SVG or CSS charts, w
 
 ## Compatibility
 
-- **Public `github.com` repositories:** same-repository `.html` / `.htm`, UTF-8, ≤ 1 MiB, 15-second fetch timeout. Supports HTML file pages, repository READMEs, and standalone `README.md` / `README.markdown` pages. Source stays available below file-page previews.
+- **Public `github.com` repositories:** same-repository `.html` / `.htm`, UTF-8, ≤ 1 MiB, 15-second fetch timeout. Supports HTML file pages, repository READMEs, and standalone `README.md` / `README.markdown` pages. File pages show a window-sized preview and hide source after rendering; failed previews leave source visible.
 - **Static documents:** inline CSS, SVG, permitted base64 raster images, data fonts, and native `<details>`. Multiple previews, resize, retry, and collapse; long documents scroll internally.
 - **Not supported:** JavaScript, external or relative assets, private repositories, Enterprise, GitLab, Issues/PRs, and cross-repository previews. For translated READMEs, use language folders such as `docs/zh-CN/README.md`.
 
