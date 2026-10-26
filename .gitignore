@@ -1,0 +1,53 @@
+# Dependencies and generated installation packages
+node_modules/
+/dist/
+*.zip
+*.crx
+
+# Automated browser tests, screenshots, reports, and temporary profiles
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+/.playwright/
+/.cache/
+*.log
+*.tsbuildinfo
+
+# Local AI tools and development instructions (not product source)
+.agents/
+.codex/
+.claude/
+.cursor/
+AGENTS.md
+AGENTS.local.md
+CLAUDE.md
+CLAUDE.local.md
+.cursorrules
+/.github/copilot-instructions.md
+/.local/
+/docs/README_SKILLS.md
+/docs/RELEASE_v0.1.1.md
+
+# Local configuration, credentials, and extension signing keys
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+.npmrc.local
+
+# Personal editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# Keep extension/icons, assets, docs/images, demos, tests, and package-lock.json tracked.
