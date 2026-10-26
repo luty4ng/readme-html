@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "README HTML",
+  "version": "0.1.0",
+  "description": "Show same-repository HTML documents inline in GitHub READMEs with a #html-preview link.",
+  "minimum_chrome_version": "120",
+  "host_permissions": ["https://raw.githubusercontent.com/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["core.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["viewer.html"],
+      "matches": ["https://github.com/*"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src data:; font-src data:; frame-src 'self'; connect-src https://raw.githubusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  }
+}
