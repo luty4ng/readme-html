@@ -1,0 +1,17 @@
+{
+  "name": "readme-html",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Free, open-source inline HTML previews for GitHub READMEs.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "icons": "node scripts/generate-icons.cjs",
+    "package": "node scripts/package.cjs",
+    "test": "node --test tests/core.test.js",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

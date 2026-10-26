@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="README HTML: an HTML document inside a preview">
+  <rect x="16" y="16" width="96" height="96" rx="24" fill="#0f172a"/>
+  <path d="M43 34h27l15 15v45H43z" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M70 34v16h15" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linejoin="round"/>
+  <path d="m56 61-8 9 8 9m16-18 8 9-8 9" fill="none" stroke="#5eead4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

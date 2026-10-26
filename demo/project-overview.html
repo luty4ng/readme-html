@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README HTML · 可视化项目说明</title>
+  <style>
+    :root { color-scheme: light; --ink:#192d48; --muted:#53637b; --blue:#335cd7; --line:#dce3ef; --paper:#fff; --wash:#f1f5ff; --green:#17765b; --purple:#7357b6; font:16px/1.75 "Segoe UI","Microsoft YaHei",sans-serif; color:var(--ink); background:#f8faff; }
+    * { box-sizing:border-box; }
+    html { scroll-padding-top:80px; }
+    body { margin:0; }
+    a { color:var(--blue); text-underline-offset:4px; }
+    a:focus-visible,summary:focus-visible { outline:3px solid var(--blue); outline-offset:4px; border-radius:4px; }
+    .masthead { padding:15px 28px; border-bottom:1px solid var(--line); background:var(--paper); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .brand { display:flex; align-items:center; gap:10px; font-size:17px; font-weight:750; }
+    .brand svg { width:29px; height:29px; color:var(--blue); }
+    .version { font-size:12px; color:var(--muted); }
+    .container { max-width:1040px; margin:auto; padding:0 clamp(18px,5vw,48px); }
+    .hero { padding:42px 0 30px; }
+    .pills { display:flex; flex-wrap:wrap; gap:8px; }
+    .pill { display:inline-block; padding:3px 10px; border:1px solid var(--line); border-radius:5px; background:var(--paper); font-size:12px; color:var(--muted); }
+    .pill.blue { color:#2948a6; background:#edf1ff; border-color:#cfd9ff; }
+    h1 { font-size:clamp(30px,5.4vw,52px); line-height:1.2; letter-spacing:-.04em; max-width:780px; margin:20px 0 16px; text-wrap:balance; }
+    .lead { color:var(--muted); max-width:720px; margin:0; }
+    .hero-note { color:var(--muted); font-size:13px; margin-top:18px; }
+    nav { display:flex; flex-wrap:wrap; gap:4px 20px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 0; }
+    nav a { display:flex; align-items:center; min-height:44px; text-decoration:none; font-size:14px; font-weight:650; }
+    section { padding:34px 0; border-bottom:1px solid var(--line); }
+    h2 { font-size:24px; line-height:1.4; letter-spacing:-.02em; margin:0 0 10px; }
+    h3 { font-size:16px; margin:0 0 8px; }
+    p { margin:0 0 14px; }
+    .sub { color:var(--muted); font-size:14px; margin-bottom:22px; max-width:740px; }
+    .embed { margin:25px 0 0; border:1px solid #bdccef; border-radius:10px; overflow:hidden; background:var(--paper); }
+    .embed-top { display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--line); background:#edf2ff; font-size:12px; }
+    .embed-top span { color:var(--muted); }
+    .embed-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+    .source { padding:22px; min-width:0; border-right:1px solid var(--line); background:#f8faff; }
+    .caption { display:block; font-size:12px; color:var(--muted); margin-bottom:12px; }
+    code,pre { font-family:Consolas,"Cascadia Code",monospace; font-size:13px; }
+    pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.8; }
+    p code,li code,td code { background:#edf1fa; padding:2px 5px; border-radius:3px; overflow-wrap:anywhere; }
+    .token { color:#415bbe; }
+    .preview { padding:22px; background:var(--paper); }
+    .mini-title { font-size:18px; font-weight:750; }
+    .mini-copy { font-size:13px; color:var(--muted); }
+    .mini-chart { height:58px; display:flex; gap:8px; align-items:flex-end; margin:20px 0 10px; }
+    .mini-chart span { background:#6e85e5; border-radius:3px 3px 0 0; flex:1; }
+    .mini-chart span:last-child { background:var(--blue); }
+    .mini-key { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; gap:10px; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .feature { padding:0 0 0 15px; border-left:3px solid #bdccef; }
+    .feature p { font-size:14px; color:var(--muted); margin:0; }
+    .two { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:24px; }
+    .file-tree { border:1px solid var(--line); border-radius:8px; padding:20px; background:var(--paper); }
+    .code-box { background:#edf2ff; border-left:3px solid var(--blue); padding:16px; margin:14px 0; }
+    ol { margin:0; padding-left:24px; }
+    li { padding-left:4px; margin-bottom:12px; }
+    .hint { margin-top:18px; padding:12px 16px; background:#eaf5f0; color:#185e4b; font-size:13px; border-radius:6px; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:22px 0; }
+    .step { position:relative; padding:18px 14px; background:var(--paper); border:1px solid var(--line); border-radius:8px; }
+    .step-num { font-size:12px; color:var(--blue); display:block; margin-bottom:9px; }
+    .step strong { font-size:14px; display:block; }
+    .step p { font-size:12px; color:var(--muted); margin:6px 0 0; }
+    .boundary { padding:20px; background:#edf1ff; display:flex; gap:16px; align-items:flex-start; border-radius:8px; }
+    .boundary svg { color:var(--blue); flex:0 0 30px; width:30px; height:34px; }
+    .boundary p { color:var(--muted); font-size:13px; margin:0; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; background:var(--paper); }
+    th,td { text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+    th { font-weight:650; background:#edf2fb; }
+    th:first-child { width:28%; } th:nth-child(2) { width:22%; }
+    .yes { color:var(--green); font-weight:700; }
+    .no { color:#875d13; font-weight:700; }
+    .mock-label { display:inline-block; font-size:12px; color:#704d11; background:#fff2d3; border:1px solid #ead8ad; padding:3px 9px; border-radius:4px; margin-bottom:12px; }
+    .dashboard { padding:22px; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:22px; }
+    .stat-label { font-size:12px; color:var(--muted); }
+    .stat-value { display:block; font-size:30px; font-weight:750; line-height:1.4; letter-spacing:-.03em; }
+    .stat-foot { font-size:12px; color:var(--muted); }
+    .charts { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:32px; }
+    .bar-row { display:grid; grid-template-columns:56px minmax(0,1fr) 32px; gap:10px; align-items:center; font-size:12px; margin-top:16px; }
+    .track { height:12px; background:#eef1f7; border-radius:3px; overflow:hidden; }
+    .bar { height:100%; background:var(--blue); border-radius:3px; }
+    .donut-row { display:flex; align-items:center; gap:18px; margin-top:20px; flex-wrap:wrap; }
+    .donut { width:112px; height:112px; flex:0 0 112px; border-radius:50%; background:conic-gradient(var(--blue) 0 50%,var(--purple) 50% 80%,#2b857a 80%); display:grid; place-items:center; }
+    .donut-center { width:76px; height:76px; border-radius:50%; background:var(--paper); display:grid; place-content:center; text-align:center; line-height:1.4; }
+    .donut-center strong { font-size:20px; } .donut-center span { font-size:10px; color:var(--muted); }
+    .legend { font-size:12px; color:var(--muted); display:grid; gap:6px; }
+    .legend span { display:flex; align-items:center; gap:7px; }
+    .dot { display:inline-block; width:8px; height:8px; background:var(--blue); border-radius:2px; }
+    .legend span:nth-child(2) .dot { background:var(--purple); }
+    .legend span:nth-child(3) .dot { background:#2b857a; }
+    .milestones { display:grid; gap:0; padding-left:18px; margin-top:20px; border-left:2px solid var(--line); }
+    .milestone { position:relative; padding:0 0 20px 8px; }
+    .milestone::before { content:""; position:absolute; left:-24px; top:8px; width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #9baccc; }
+    .milestone.done::before { background:var(--green); border-color:var(--green); }
+    .milestone strong { font-size:14px; } .milestone p { font-size:13px; color:var(--muted); margin:4px 0 0; }
+    .small-tag { display:inline-block; margin-left:8px; padding:0 6px; font-size:11px; border-radius:3px; background:#edf1fa; color:var(--muted); }
+    details { border-bottom:1px solid var(--line); }
+    summary { padding:14px 4px; min-height:48px; cursor:pointer; font-size:14px; font-weight:650; }
+    details p { font-size:13px; color:var(--muted); padding:0 4px 4px; }
+    footer { padding:28px 0 36px; color:var(--muted); font-size:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    @media(max-width:700px) { .grid { grid-template-columns:1fr; gap:18px; } .two,.charts { grid-template-columns:1fr; } .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .embed-body { grid-template-columns:1fr; } .source { border-right:0; border-bottom:1px solid var(--line); } .hero { padding-top:28px; } }
+    @media(max-width:420px) { .masthead { padding:12px 18px; } .stats { gap:8px; } .stat-value { font-size:25px; } .dashboard { padding:16px; } th,td { padding:10px 7px; font-size:12px; } h2 { font-size:22px; } }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><svg viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="7" fill="#edf1ff"/><path d="m11 9-6 6 6 6m8-12 6 6-6 6m-3-14-3 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>README HTML</div>
+    <span class="version">v0.1.0 · MIT License · Chrome 120+</span>
+  </header>
+  <main class="container">
+    <div class="hero">
+      <div class="pills"><span class="pill blue">免费开源浏览器插件</span><span class="pill">静态 HTML 预览</span><span class="pill">无需后端</span></div>
+      <h1>让你的 README，<br>直接读懂 HTML。</h1>
+      <p class="lead">把 AI 生成的报告、项目说明和 CSS 图表留在仓库里。加上一个 Markdown 链接，让读者直接在 README 中阅读完整的 HTML 文档。</p>
+      <div class="embed" aria-label="嵌入语法和静态预览示意">
+        <div class="embed-top"><strong>一个链接，一份可视化文档</strong><span>下方为排版示意</span></div>
+        <div class="embed-body">
+          <div class="source"><span class="caption">在 README.md 中写入</span><pre><span class="token">[查看项目报告]</span>(./docs/report.html<span class="token">#html-preview</span>)</pre></div>
+          <div class="preview"><div class="mini-title">项目进度报告</div><p class="mini-copy">保留文档自己的颜色、布局与图表。</p><div class="mini-chart" aria-hidden="true"><span style="height:28%"></span><span style="height:45%"></span><span style="height:38%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:90%"></span></div><div class="mini-key"><span>CSS 绘制，无需脚本</span><span>示意图</span></div></div>
+        </div>
+      </div>
+      <p class="hero-note">你正在阅读的这份项目说明，本身就是一个单文件 HTML 示例。安装插件后，它会嵌入仓库的 README。</p>
+    </div>
+    <nav aria-label="文档目录"><a href="#quickstart">快速开始</a><a href="#workflow">工作流程</a><a href="#support">支持范围</a><a href="#mock-report">报告示例</a><a href="#faq">常见问题</a></nav>
+    <section aria-labelledby="features-title">
+      <h2 id="features-title">从文件链接，到直接阅读</h2>
+      <p class="sub">适合已有自包含 HTML 文档、希望让 GitHub 读者更方便查看的开发者。</p>
+      <div class="grid">
+        <article class="feature"><h3>文档保留自己的设计</h3><p>内联 CSS、多列布局、表格、SVG 与纯 CSS 图表，都能放进同一份说明里。</p></article>
+        <article class="feature"><h3>仍然使用仓库工作流</h3><p>HTML 跟代码一起版本管理。用普通 Markdown 链接指定文档，支持同仓库中的多个预览。</p></article>
+        <article class="feature"><h3>阅读过程留在 README</h3><p>可以收起、展开、滚动和调整预览高度。没有安装插件的读者，仍然看到普通文件链接。</p></article>
+      </div>
+    </section>
+    <section id="quickstart" aria-labelledby="quickstart-title">
+      <h2 id="quickstart-title">快速开始</h2>
+      <p class="sub">准备一个公开仓库、一份自包含 HTML，以及已经安装的 README HTML 插件。</p>
+      <div class="two">
+        <div><div class="file-tree"><span class="caption">建议的仓库结构</span><pre>your-repository/
+├── README.md
+├── docs/
+│   └── report.html
+└── src/</pre></div><div class="code-box"><span class="caption">README.md 中的完整标记</span><pre>[查看项目报告](./docs/report.html#html-preview)</pre></div></div>
+        <ol><li><strong>安装插件</strong><br>打开 <code>chrome://extensions</code>，开启开发者模式，加载本项目的 <code>extension</code> 文件夹。</li><li><strong>提交文档与链接</strong><br>把 UTF-8 HTML 和带有 <code>#html-preview</code> 的链接放进同一个公开仓库。建议链接单独占一段。</li><li><strong>刷新 GitHub README</strong><br>插件会自动读取文档并在链接下方显示。更新插件后，也需要刷新已经打开的 GitHub 页面。</li></ol>
+      </div>
+      <p class="hint">让 AI 生成兼容文档时可以说：“请生成单文件 UTF-8 HTML，CSS 内嵌，图表使用 SVG 或 CSS，不使用 JavaScript、外部字体、图片或样式文件。”</p>
+    </section>
+    <section id="workflow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">一个标记如何变成预览</h2>
+      <p class="sub">以下是插件当前实现的读取与展示流程，无需创建 GitHub Pages 站点。</p>
+      <div class="flow"><div class="step"><span class="step-num">步骤 1</span><strong>识别 README 标记</strong><p>找到以 #html-preview 结尾的 HTML 文件链接。</p></div><div class="step"><span class="step-num">步骤 2</span><strong>核对仓库与地址</strong><p>只接受当前仓库的 HTML 文件，拒绝跨仓库和外部地址。</p></div><div class="step"><span class="step-num">步骤 3</span><strong>读取原始 HTML</strong><p>通过 GitHub Raw 获取公开文件，不携带登录凭据。</p></div><div class="step"><span class="step-num">步骤 4</span><strong>在隔离区域展示</strong><p>保留静态布局，禁用脚本、外部资源和表单提交。</p></div></div>
+      <div class="boundary"><svg viewBox="0 0 30 34" fill="none" aria-hidden="true"><path d="m15 2 12 5v9c0 7-5 12-12 16C8 28 3 23 3 16V7l12-5Z" stroke="currentColor" stroke-width="2"/><path d="m9 16 4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h3>文档拥有自己的隔离区域</h3><p>沙箱 iframe 与内容安全策略限制文档行为。插件不修改 GitHub 的安全策略，也不在 GitHub 页面中运行仓库里的 JavaScript。预览内容仍可能包含误导性文字，请自行判断来源。</p></div></div>
+    </section>
+    <section id="support" aria-labelledby="support-title">
+      <h2 id="support-title">v0.1 支持范围</h2>
+      <p class="sub">优先让静态文档稳定可读。下表描述当前版本的实际边界。</p>
+      <table><thead><tr><th scope="col">能力</th><th scope="col">当前状态</th><th scope="col">说明</th></tr></thead><tbody><tr><td>HTML 与内联 CSS</td><td class="yes">支持</td><td>自包含布局、颜色、表格及响应式样式。</td></tr><tr><td>内联 SVG / CSS 图表</td><td class="yes">支持</td><td>图形直接保存在 HTML 中，无需图表脚本。</td></tr><tr><td>原生折叠面板</td><td class="yes">支持</td><td>使用 <code>details</code> 与 <code>summary</code>，不依赖 JavaScript。</td></tr><tr><td>多份文档 / 动态导航</td><td class="yes">支持</td><td>扫描 README 变化；可收起、重试、调整预览高度。</td></tr><tr><td>JavaScript / 外部资源</td><td class="no">暂不支持</td><td>脚本、外部 CSS、普通图片路径和外部字体被禁用。</td></tr><tr><td>私有仓库 / Enterprise</td><td class="no">暂不支持</td><td>首版仅面向 github.com 的公开仓库 README。</td></tr><tr><td>文件大小 / 编码</td><td>≤ 1 MiB / UTF-8</td><td>读取超时为 15 秒；超出限制时显示错误提示。</td></tr></tbody></table>
+    </section>
+    <section id="mock-report" aria-labelledby="report-title">
+      <span class="mock-label">Mock 数据 · 仅用于展示排版能力</span>
+      <h2 id="report-title">如果 README 里有一份项目周报</h2>
+      <p class="sub">下面所有数字均为虚构，不代表本项目的用户规模、使用情况或性能测试。图表完全由 CSS 绘制。</p>
+      <div class="dashboard">
+        <div class="stats"><div><span class="stat-label">示例阅读次数</span><strong class="stat-value">1,280</strong><span class="stat-foot">虚构统计</span></div><div><span class="stat-label">示例文档数量</span><strong class="stat-value">24</strong><span class="stat-foot">虚构统计</span></div><div><span class="stat-label">示例完成率</span><strong class="stat-value">92%</strong><span class="stat-foot">虚构统计</span></div></div>
+        <div class="charts"><div><h3>文档阅读趋势</h3><span class="caption">四周示例数据，单位：次</span><div class="bar-row"><span>第 1 周</span><div class="track"><div class="bar" style="width:32%"></div></div><span>160</span></div><div class="bar-row"><span>第 2 周</span><div class="track"><div class="bar" style="width:48%"></div></div><span>240</span></div><div class="bar-row"><span>第 3 周</span><div class="track"><div class="bar" style="width:76%"></div></div><span>380</span></div><div class="bar-row"><span>第 4 周</span><div class="track"><div class="bar" style="width:100%"></div></div><span>500</span></div></div><div><h3>示例文档类型</h3><div class="donut-row"><div class="donut" role="img" aria-label="示例文档：报告占 50%，项目说明占 30%，其他占 20%"><div class="donut-center"><strong>24</strong><span>份示例文档</span></div></div><div class="legend"><span><i class="dot" aria-hidden="true"></i>报告 50%</span><span><i class="dot" aria-hidden="true"></i>项目说明 30%</span><span><i class="dot" aria-hidden="true"></i>其他 20%</span></div></div></div></div>
+      </div>
+    </section>
+    <section aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title">接下来验证什么</h2>
+      <p class="sub">这是一个免费开源的早期项目。先验证开发者是否会反复嵌入文档，再决定下一步功能。</p>
+      <div class="milestones"><div class="milestone done"><strong>静态文档预览<span class="small-tag">已实现</span></strong><p>同仓库标记、内联 CSS、隔离展示、错误重试和多预览。</p></div><div class="milestone"><strong>真实仓库试用<span class="small-tag">当前验证</span></strong><p>邀请 5 位已有 HTML 文档分享需求的开发者试用；两周内观察是否至少 3 人完成第二次使用。</p></div><div class="milestone"><strong>后续候选功能<span class="small-tag">尚未实现</span></strong><p>商店上架、相对资源支持和私有仓库支持，需要根据试用反馈决定；这些不是当前能力或交付承诺。</p></div></div>
+    </section>
+    <section id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">常见问题</h2>
+      <p class="sub">点击下方问题展开答案。这部分使用浏览器原生 HTML 折叠功能。</p>
+      <details><summary>为什么安装后只看到链接，没有预览？</summary><p>先刷新 GitHub 页面。确认插件已启用，页面是公开仓库的 README，链接以 #html-preview 结尾，并且目标 HTML 文件与 README 在同一个仓库里。</p></details>
+      <details><summary>可以直接把任意网站嵌进 README 吗？</summary><p>当前版本只读取同一仓库的 .html 或 .htm 文件。外部网站链接和跨仓库链接不属于支持范围。</p></details>
+      <details><summary>没有安装插件的读者会看到什么？</summary><p>会看到普通的 GitHub 文件链接。HTML 文件依然可以查看源码或下载；GitHub 默认不会把这个文件在 README 中渲染出来。</p></details>
+      <details><summary>为什么原来的图片、字体或图表不见了？</summary><p>首版禁用外部资源和 JavaScript。请使用内联 CSS、内联 SVG 或 base64 栅格图片；需要脚本运行的图表请改为静态 SVG 或 CSS 图表。</p></details>
+      <details><summary>预览高度能自动适应整份文档吗？</summary><p>当前使用固定高度的滚动区域。可以拖动预览底部调整高度，或在预览内部滚动；首版没有自动测量文档高度。</p></details>
+      <details><summary>插件会收集使用数据或上传文档吗？</summary><p>当前版本没有统计、账户、存储或第三方预览服务。文档直接从 GitHub Raw 读取到浏览器内存中，GitHub 和网络服务方仍能看到该文件请求。</p></details>
+    </section>
+    <footer><span>README HTML · MIT License · 免费使用、修改与分发</span><span>单文件 HTML / 内联 CSS / 无外部依赖</span><a href="#quickstart">回到快速开始</a></footer>
+  </main>
+</body>
+</html>
